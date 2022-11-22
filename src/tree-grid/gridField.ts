@@ -1,36 +1,90 @@
 import PivotGridDataSource from 'devextreme/ui/pivot_grid/data_source';
-import { DiagGrid, DiagGridRes2, ICellInfo } from './type';
+import { DiagGrid, ICellInfo } from './type';
 import { CalcuateRate, ConvertToMillion, convertToNumber } from './convert-num-unit';
-import DevExpress from 'devextreme';
+import { IGroupField } from 'dx-planit-tree-grid/type';
 
 type GridPivotState = {
   status: 'pending' | 'loading' | 'success' | 'error';
   data: DiagGrid[];
 };
 
-export const NaNData = Object.freeze(['hospitalType', 'medDeptNm', 'medrStfNm']);
+export const TreeDataGroup: IGroupField[] = [
+  {
+    groupCaption: '진료 수입 <em>(백만원)</em>',
+    groupName: 'mediIncome',
+    depth: 1,
+    colspan: 7,
+  },
+  {
+    groupCaption: '전체',
+    groupName: 'mediIncomeAll',
+    depth: 2,
+    colspan: 3,
+  },
+  {
+    groupCaption: '외래',
+    groupName: 'mediIncomeOut',
+    depth: 2,
+    colspan: 2,
+  },
+  {
+    groupCaption: '입원',
+    groupName: 'mediIncomeIn',
+    depth: 2,
+    colspan: 2,
+  },
+  {
+    groupCaption: '환자수',
+    groupName: 'mediIncome',
+    depth: 1,
+    colspan: 6,
+  },
+  {
+    groupCaption: '외래',
+    groupName: 'patientOut',
+    depth: 2,
+    colspan: 2,
+  },
+  {
+    groupCaption: '입원',
+    groupName: 'patientIn',
+    depth: 2,
+    colspan: 2,
+  },
+  {
+    groupCaption: '실입원',
+    groupName: 'patientRealIn',
+    depth: 2,
+    colspan: 2,
+  },
+  {
+    groupCaption: '인당 수입',
+    groupName: 'personIncome',
+    depth: 1,
+    colspan: 4,
+  },
+  {
+    groupCaption: '외래',
+    groupName: 'personIncomeOut',
+    depth: 2,
+    colspan: 2,
+  },
+  {
+    groupCaption: '입원',
+    groupName: 'personIncomeIn',
+    depth: 2,
+    colspan: 2,
+  },
+];
 
-export const PivotGridField = (
-  gridData: GridPivotState,
-  hospitalNm: { [k in keyof DiagGridRes2]: 'A' | 'B' | 'E' },
-  cellWidth: number
-): PivotGridDataSource => {
+export const PivotGridField = (gridData: GridPivotState): PivotGridDataSource => {
   return new PivotGridDataSource({
     fields: [
-      // 진료 수입 - 전체
       {
         caption: '기관',
         dataField: 'hospitalType',
         area: 'row',
         width: 80,
-        sortingMethod: (a: DevExpress.ui.dxPivotGrid.Cell, b: DevExpress.ui.dxPivotGrid.Cell) => {
-          if (hospitalNm[a.value] > hospitalNm[b.value]) {
-            return 1;
-          } else if (hospitalNm[a.value] < hospitalNm[b.value]) {
-            return -1;
-          }
-          return 0;
-        },
       },
       {
         caption: '진료과',
@@ -44,12 +98,12 @@ export const PivotGridField = (
         area: 'row',
         width: 80,
       },
+      // 진료 수입 - 전체
       {
         caption: '실적',
         dataField: 'allMtdAmt',
         area: 'data',
         dataType: 'number',
-        width: cellWidth,
         summaryType: 'sum',
         customizeText: (d: { value?: string | number | Date | undefined; valueText?: string | undefined }) =>
           ConvertToMillion(d.value, 1000000),
@@ -58,7 +112,6 @@ export const PivotGridField = (
         caption: '전년대비',
         dataField: 'allPyMtdAmtRate',
         area: 'data',
-        width: cellWidth,
         format: {
           type: 'percent',
           precision: 1,
@@ -72,7 +125,6 @@ export const PivotGridField = (
         caption: '목표달성률',
         dataField: 'outGoalMtdAmtRateMed',
         area: 'data',
-        width: cellWidth,
         summaryType: 'custom',
         format: {
           type: 'percent',
@@ -82,11 +134,12 @@ export const PivotGridField = (
           return CalcuateRate(e.value('outMtdAmt'), e.value('outGoalMtdAmtForDivMed'));
         },
       },
+
+      // 진료 수입 - 외래
       {
         caption: '실적',
         dataField: 'outMtdAmt',
         area: 'data',
-        width: cellWidth,
         summaryType: 'sum',
         customizeText: (d: ICellInfo) => ConvertToMillion(d.value, 1000000),
       },
@@ -94,7 +147,6 @@ export const PivotGridField = (
         caption: '전년대비',
         dataField: 'outPyMtdAmtRate',
         area: 'data',
-        width: cellWidth,
         summaryType: 'avg',
         format: {
           type: 'percent',
@@ -111,7 +163,6 @@ export const PivotGridField = (
         caption: '실적',
         dataField: 'inMtdAmt',
         area: 'data',
-        width: cellWidth,
         summaryType: 'sum',
         customizeText: (d: ICellInfo) => ConvertToMillion(d.value, 1000000),
       },
@@ -119,7 +170,6 @@ export const PivotGridField = (
         caption: '전년대비',
         dataField: 'inPyMtdAmtRate',
         area: 'data',
-        width: cellWidth,
         summaryType: 'avg',
         format: {
           type: 'percent',
@@ -135,7 +185,6 @@ export const PivotGridField = (
         caption: '실적',
         dataField: 'outMtdPtCnt',
         area: 'data',
-        width: cellWidth,
         summaryType: 'sum',
         customizeText: (d: ICellInfo) => convertToNumber(d.value).toLocaleString('en'),
       },
@@ -143,7 +192,6 @@ export const PivotGridField = (
         caption: '전년대비',
         dataField: 'outPyMtdPtCntRate',
         area: 'data',
-        width: cellWidth,
         summaryType: 'avg',
         format: {
           type: 'percent',
@@ -159,7 +207,6 @@ export const PivotGridField = (
         caption: '실적',
         dataField: 'inMtdPtCnt',
         area: 'data',
-        width: cellWidth,
         summaryType: 'sum',
         customizeText: (d: ICellInfo) => convertToNumber(d.value).toLocaleString('en'),
       },
@@ -167,7 +214,6 @@ export const PivotGridField = (
         caption: '전년대비',
         dataField: 'inPyMtdPtCntRate',
         area: 'data',
-        width: cellWidth,
         summaryType: 'avg',
         format: {
           type: 'percent',
@@ -183,7 +229,6 @@ export const PivotGridField = (
         caption: '실적',
         dataField: 'realInMtdPtCnt',
         area: 'data',
-        width: cellWidth,
         summaryType: 'sum',
         customizeText: (d: ICellInfo) => convertToNumber(d.value).toLocaleString('en'),
       },
@@ -191,7 +236,6 @@ export const PivotGridField = (
         caption: '전년대비',
         dataField: 'realInPyMtdPtCntRate',
         area: 'data',
-        width: cellWidth,
         summaryType: 'avg',
         format: {
           type: 'percent',
@@ -207,7 +251,6 @@ export const PivotGridField = (
         caption: '실적',
         dataField: 'outMtdPerPtAmt',
         area: 'data',
-        width: cellWidth,
         summaryType: 'avg',
         customizeText: (d: ICellInfo) => ConvertToMillion(d.value, 1000),
         calculateSummaryValue: (e): number => {
@@ -218,7 +261,6 @@ export const PivotGridField = (
         caption: '전년대비',
         dataField: 'outPyMtdPerPtAmtRate',
         area: 'data',
-        width: cellWidth,
         summaryType: 'avg',
         format: {
           type: 'percent',
@@ -236,7 +278,6 @@ export const PivotGridField = (
         caption: '실적',
         dataField: 'inMtdPerPtAmt',
         area: 'data',
-        width: cellWidth,
         summaryType: 'avg',
         customizeText: (d: ICellInfo) => ConvertToMillion(d.value, 1000),
         calculateSummaryValue: (e): number => {
@@ -248,7 +289,6 @@ export const PivotGridField = (
         caption: '전년대비',
         dataField: 'inPyMtdPerPtAmtRate',
         area: 'data',
-        width: cellWidth,
         groupName: 'Address',
         summaryType: 'avg',
         format: {

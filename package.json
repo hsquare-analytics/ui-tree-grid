@@ -1,7 +1,15 @@
 {
-  "name": "ui-tree-grid",
+  "name": "@bcahn/ui-tree-grid",
   "version": "0.1.0",
   "private": true,
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "repository": "https://github.com/hsquare-analytics/ui-tree-grid.git",
+  "author": "bcahn <antonio1926@gmail.com>",
+  "license": "MIT",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  },
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",

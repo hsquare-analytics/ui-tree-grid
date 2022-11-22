@@ -1,13 +1,8 @@
-import * as React from 'react';
 import { useEffect, useState } from 'react';
 
-import { LoadPanel } from 'devextreme-react/load-panel';
+import { PivotGridField, TreeDataGroup } from './gridField';
 
-import { NaNData, PivotGridField } from './gridField';
-import { FieldChooser } from 'devextreme-react/pivot-grid';
-import { StateStoring } from 'devextreme-react/data-grid';
-
-import { DiagGrid, DiagGridRes, DiagGridRes2, HospitalType } from './type';
+import { DiagGrid } from './type';
 import { TestGridData } from './data';
 import DxPlanitTreeGrid from 'dx-planit-tree-grid/DxPlanitTreeGrid';
 
@@ -18,47 +13,20 @@ type GridPivotState = {
 };
 
 const TestGrid = (): JSX.Element => {
-  /**
-   * to library
-   */
-  const [blueColor, redColor] = ['rgb(26, 169, 228)', '#fd7e14'];
-  const cellWidth = 92;
+  const NaNData = Object.freeze(['hospitalType', 'medDeptNm', 'medrStfNm']);
 
   const [gridData, setGridData] = useState<GridPivotState>({
-    status: 'loading',
-    data: [],
-  });
-  const [originGridData, setOriginGridData] = useState<GridPivotState>({
     status: 'loading',
     data: [],
   });
 
   const [dataSource, setDataSource] = useState({});
 
-  const hospitalNm: HospitalType = {
-    분당본원: 'A',
-    분당여성: 'B',
-    분당난임: 'E',
-  };
-
-  const fieldByOnlyMed = [];
-
   /**
-   * 각 기관별 의료진 데이터만 재귀적으로 추출
-   * @param data 기관별 데이터
-   * @param keys Object.keys(기관별 데이터)
-   * @param index
-   * @param array 반환 데이터
-   * @return DiagGridRes[]
+   * NaN일 경우 number 타입으로 변환
+   * @param num
+   * @returns
    */
-  const extractArray = (data: any, keys: string[], index: number, array: DiagGridRes[] = []): DiagGridRes[] => {
-    if (index === keys.length) {
-      return array;
-    }
-    array.push(...data[keys[index]]);
-    return extractArray(data, keys, index + 1, array);
-  };
-
   const fixedNaN = (num: any): number => {
     const newNum = parseFloat(num);
 
@@ -66,12 +34,12 @@ const TestGrid = (): JSX.Element => {
   };
 
   /**
-   * string 타입의 데이터를 모두 숫자로 변경 to library
+   * string 타입의 데이터를 모두 숫자로 변경
    * @param data
    * @return
    */
-  const reformGridData = (data: DiagGridRes[]): DiagGrid[] => {
-    return data.map((item: DiagGridRes) => {
+  const reformGridData = (data: DiagGrid[]): DiagGrid[] => {
+    return data.map((item: DiagGrid) => {
       const newItem: any = { ...item };
       for (const key of Object.keys(newItem)) {
         if (NaNData.includes(key)) {
@@ -90,55 +58,59 @@ const TestGrid = (): JSX.Element => {
     });
   };
 
-  const factorial = (data: DiagGridRes2): DiagGrid[] => {
-    const arr: DiagGridRes[] = [];
-    Object.keys(data).forEach(key => arr.push(...extractArray(data[key], Object.keys(data[key]), 0, [])));
-    return reformGridData(arr);
-  };
-
+  /**
+   * 그리드 데이터 초기화
+   */
   const initGridData = (): void => {
     const init = {
       status: 'loading' as DataStatus,
       data: [] as DiagGrid[],
     };
-    setOriginGridData(init);
     setGridData(init);
   };
 
+  /**
+   * 그리드 데이터 reset
+   * @param gridDataParam
+   */
   const resetPivotGridfield = (gridDataParam: GridPivotState): void => {
-    setDataSource(PivotGridField(gridDataParam, hospitalNm, cellWidth));
-  };
-
-  const requestGridData = async (): Promise<void> => {
-    initGridData();
-
-    const doctor = TestGridData;
-    const grid = {
-      status: 'success' as DataStatus,
-      data: factorial(doctor),
-    };
-
-    setGridData(grid);
-    setOriginGridData(grid);
-    resetPivotGridfield(grid);
+    setDataSource(PivotGridField(gridDataParam));
   };
 
   /**
-   * to library
+   * 그리드 데이터 불러오기
    */
-  const resetSession = (): void => {
-    sessionStorage.removeItem('dx-vera-pivotgrid-storing');
+  const requestGridData = async (): Promise<void> => {
+    initGridData();
+
+    const doctor = await TestGridData;
+    const grid = {
+      status: 'success' as DataStatus,
+      data: reformGridData(doctor),
+    };
+
+    setGridData(grid);
+    resetPivotGridfield(grid);
   };
 
   useEffect(() => {
-    resetSession();
     requestGridData();
   }, []);
 
   return (
-    <div className="area-item-table table-wrapper diag-table-wrapper">
-      {gridData.status === 'success' && gridData.data?.length && (
-        <DxPlanitTreeGrid dataSource={dataSource} color={{ color1: 'rgb(26, 169, 228)', color2: '#fd7e14' }} />
+    <div className="table-wrapper">
+      {gridData.data?.length && (
+        <DxPlanitTreeGrid
+          dataSource={dataSource}
+          groupField={TreeDataGroup}
+          dataColor={[
+            { format: 'percent', color: 'rgb(26, 169, 228)', condition: '>= 110' },
+            { format: 'percent', color: '#fd7e14', condition: '< 100' },
+          ]}
+          convertNullToHipen={true}
+          convertZeroToHipen={true}
+          stateStoring={true}
+        />
       )}
     </div>
   );

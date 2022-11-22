@@ -36,3 +36,14 @@
     transform: rotate(360deg);
   }
 }
+
+.dx-pivotgrid.dx-row-lines,
+.dx-pivotgrid .dx-pivotgrid-vertical-headers tr:first-child td {
+  text-align: left;
+}
+
+.table-wrapper {
+  margin: 50px;
+  width: calc(100% - 100px);
+  height: 800px;
+}

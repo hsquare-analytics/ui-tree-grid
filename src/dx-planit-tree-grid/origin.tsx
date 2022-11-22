@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 
 import { LoadPanel } from 'devextreme-react/load-panel';
 
-import { NaNData, PivotGridField } from '../tree-grid/gridField';
+import { PivotGridField } from '../tree-grid/gridField';
 import PivotGrid, { FieldChooser } from 'devextreme-react/pivot-grid';
 import { StateStoring } from 'devextreme-react/data-grid';
 
@@ -37,6 +37,7 @@ const DxPlanitTreeGrid = (props: any, ref: React.LegacyRef<PivotGrid> | undefine
   const { currentHospitalType, chaStandardDate, diagnosisParamFilters, isMonth, isExpandMode } = props;
   const [blueColor, redColor] = ['rgb(26, 169, 228)', '#fd7e14'];
   const cellWidth = isExpandMode ? 92 : 92;
+  const NaNData = Object.freeze(['hospitalType', 'medDeptNm', 'medrStfNm']);
 
   const [gridData, setGridData] = useState<GridPivotState>({
     status: 'loading',
@@ -291,7 +292,7 @@ const DxPlanitTreeGrid = (props: any, ref: React.LegacyRef<PivotGrid> | undefine
   };
 
   const resetPivotGridfield = (gridDataParam: GridPivotState): void => {
-    setDataSource(PivotGridField(gridDataParam, hospitalNm, isMonth));
+    setDataSource(PivotGridField(gridDataParam));
   };
 
   const requestGridData = async (): Promise<void> => {
