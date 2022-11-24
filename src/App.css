@@ -45,5 +45,18 @@
 .table-wrapper {
   margin: 50px;
   width: calc(100% - 100px);
-  height: 800px;
+  height: 400px;
+}
+
+.text-right {
+  margin-bottom: 10px;
+  text-align: right;
+}
+.btn {
+  border: 0;
+  background-color: rgb(26, 169, 228);
+  color: #fff;
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 4px;
 }

@@ -1,10 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
-import { PivotGridField, TreeDataGroup } from './gridField';
+import { PivotGridField } from './gridField';
 
 import { DiagGrid } from './type';
 import { TestGridData } from './data';
 import DxPlanitTreeGrid from 'dx-planit-tree-grid/DxPlanitTreeGrid';
+import { TreeDataGroup } from './groupField';
 
 type DataStatus = 'pending' | 'loading' | 'success' | 'error';
 type GridPivotState = {
@@ -21,6 +22,7 @@ const TestGrid = (): JSX.Element => {
   });
 
   const [dataSource, setDataSource] = useState({});
+  const $childRef = useRef();
 
   /**
    * NaN일 경우 number 타입으로 변환
@@ -93,14 +95,31 @@ const TestGrid = (): JSX.Element => {
     resetPivotGridfield(grid);
   };
 
+  /**
+   * 엑셀 다운로드 버튼 클릭시 동작
+   */
+  const onExportExcel = (): void => {
+    // setStartCreateExcel(true);
+    if ($childRef.current) {
+      ($childRef.current as { exportToExcel: (fileName: string) => {} }).exportToExcel('진료실적상세');
+    }
+  };
+
   useEffect(() => {
     requestGridData();
   }, []);
 
   return (
-    <div className="table-wrapper">
+    <div className="area-item-table table-wrapper diag-table-wrapper diag-tree-grid">
+      <p className="text-right">
+        <button type={'button'} className={'btn'} onClick={onExportExcel}>
+          엑셀 다운로드
+        </button>
+      </p>
+
       {gridData.data?.length && (
         <DxPlanitTreeGrid
+          ref={$childRef}
           dataSource={dataSource}
           groupField={TreeDataGroup}
           dataColor={[
