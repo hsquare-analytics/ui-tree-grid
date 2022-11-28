@@ -6,6 +6,7 @@ import { DiagGrid } from './type';
 import { TestGridData } from './data';
 import DxPlanitTreeGrid from 'dx-planit-tree-grid/DxPlanitTreeGrid';
 import { TreeDataGroup } from './groupField';
+import LoadPanel from 'devextreme-react/load-panel';
 
 type DataStatus = 'pending' | 'loading' | 'success' | 'error';
 type GridPivotState = {
@@ -128,7 +129,8 @@ const TestGrid = (): JSX.Element => {
           ]}
           convertNullToHipen={true}
           convertZeroToHipen={true}
-          stateStoring={true}
+          stateStoringKey={'dx-vera-pivotgrid-storing'}
+          allowSortingBySummary={true}
         />
       )}
     </div>

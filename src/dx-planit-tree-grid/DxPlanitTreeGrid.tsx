@@ -5,18 +5,11 @@ import { LoadPanel } from 'devextreme-react/load-panel';
 import PivotGrid, { Export, FieldChooser } from 'devextreme-react/pivot-grid';
 import { StateStoring } from 'devextreme-react/data-grid';
 import DevExpress from 'devextreme';
-import { IGroupField } from './type';
-import { Format } from 'devextreme/localization';
+import { IColorInfo, IGroupField } from './type';
 import { exportPivotGrid } from 'devextreme/excel_exporter';
 import { Workbook } from 'exceljs';
 import saveAs from 'file-saver';
 import PivotGridDataSource from 'devextreme/ui/pivot_grid/data_source';
-
-interface IColorInfo {
-  format: Format;
-  color: string;
-  condition: string;
-}
 
 interface ColumnField {
   colspan: number;
@@ -24,17 +17,22 @@ interface ColumnField {
   type: string;
 }
 
-interface Props {
-  dataSource: any;
+interface Props extends DevExpress.ui.dxPivotGrid.Properties {
+  id?: string;
+  dataSource?: any;
   groupField?: IGroupField[];
   dataColor?: IColorInfo[];
   convertNullToHipen?: boolean;
   convertZeroToHipen?: boolean;
-  stateStoring?: boolean;
-  createExcel?: boolean;
-  [prop: string]: any;
+  stateStoringKey?: string;
+  customExcelButton?: boolean;
 }
 
+/**
+ * devextreme pivotgrid Configrations 중 사용 불가 항목 : id, width, height, showColumnGrandTotals, showColumnTotals, showRowGrandTotals, FieldChooser
+ * devextreme pivotgrid Configrations 중 사용 방법 변경 항목 : stateStoring, Export
+ * onExported, onFileSaving 이벤트 사용하지 않음.
+ */
 /**
  * todoList:
  * 2) columIndex 초기화 기능이 있어야 함(column 개수 변할 때)
@@ -45,12 +43,46 @@ const grandTotalCssNm = 'data-grand-total';
 
 const DxPlanitTreeGrid = forwardRef(
   (props: Props, ref: any): JSX.Element => {
-    const { dataSource, groupField, dataColor, convertNullToHipen = true, convertZeroToHipen = true, stateStoring = true } = props;
+    const {
+      id = 'dx-planit-vera-pivotgrid-id',
+      groupField,
+      dataColor,
+      convertNullToHipen = true,
+      convertZeroToHipen = true,
+      stateStoringKey = '',
+      allowExpandAll = false,
+      allowFiltering = false,
+      allowSorting = false,
+      allowSortingBySummary = false,
+      dataFieldArea = 'column',
+      dataSource,
+      disabled = false,
+      elementAttr,
+      encodeHtml,
+      hideEmptySummaryCells = false,
+      hint,
+      rowHeaderLayout = 'standard',
+      rtlEnabled = false,
+      showBorders = true,
+      showRowTotals = true,
+      showTotalsPrior = 'none',
+      tabIndex = 0,
+      visible = true,
+      wordWrapEnabled = false,
+      customExcelButton = false,
+      onCellClick,
+      onCellPrepared,
+      onContentReady,
+      onContextMenuPreparing,
+      onDisposing,
+      onExporting,
+      onInitialized,
+      onOptionChanged,
+    } = props;
 
     const [width, setWidth] = useState(0);
     const [height, setHeight] = useState(0);
     const [columnIndex, setColumnIndex] = useState(0);
-    const [excelFileName, setExcelFileName] = useState('Untitled');
     const [gridDataSource, setGridDataSource] = useState<PivotGridDataSource>(dataSource);
 
     const $tableRef = useRef<PivotGrid>(null);
@@ -387,8 +419,7 @@ const DxPlanitTreeGrid = forwardRef(
      * @param fileName 저장하고자 하는 엑셀파일명
      */
     const exportToExcel = (fileName: string): void => {
-      setExcelFileName(fileName);
-      $tableRef.current?.instance.exportToExcel();
+      setTimeout(() => exportToExcelAction($tableRef.current?.instance, fileName));
     };
 
     /**
@@ -414,10 +445,11 @@ const DxPlanitTreeGrid = forwardRef(
      * 엑셀 export
      * @param e
      */
-    const onExporting = (e: DevExpress.ui.dxPivotGrid.ExportingEvent) => {
-      const newComponent = convertDataControllerColumnsInfo(e.component);
+    const exportToExcelAction = (e: any, fileName: string): void => {
+      const newComponent = convertDataControllerColumnsInfo(e);
+
       const workbook = new Workbook();
-      const worksheet = workbook.addWorksheet(excelFileName);
+      const worksheet = workbook.addWorksheet(fileName);
 
       exportPivotGrid({
         component: newComponent,
@@ -433,7 +465,7 @@ const DxPlanitTreeGrid = forwardRef(
         },
       }).then(() => {
         workbook.xlsx.writeBuffer().then(buffer => {
-          saveAs(new Blob([buffer], { type: 'application/octet-stream' }), excelFileName + '.xlsx');
+          saveAs(new Blob([buffer], { type: 'application/octet-stream' }), fileName + '.xlsx');
         });
       });
       e.cancel = true;
@@ -443,22 +475,71 @@ const DxPlanitTreeGrid = forwardRef(
      * devextreme CellPreparedEvent 이벤트 실행
      * @param e
      */
-    const onCellPrepared = (e: DevExpress.ui.dxPivotGrid.CellPreparedEvent) => {
+    const onCellPreparedChild = (
+      e: DevExpress.ui.dxPivotGrid.CellPreparedEvent
+    ): ((e: DevExpress.ui.dxPivotGrid.CellPreparedEvent) => void) | void => {
       makeColorAtPercent(e);
       setTotalElementInfo(e);
       setMaxColumIndex(e);
       changeTotalText(e);
       changeNullToHipen(e);
       changeZeroToHipen(e);
+
+      return onCellPrepared ? onCellPrepared(e) : undefined;
     };
 
     /**
-     * devextreme onContentReady 이벤트 실행
+     * devextreme Raise Event
      */
-    const onContentReady = () => {
+    const onContentReadyChild = (
+      e: DevExpress.ui.dxPivotGrid.ContentReadyEvent
+    ): ((e: DevExpress.ui.dxPivotGrid.ContentReadyEvent) => void) | void => {
       setTimeout(() => insertRowHeaderGroup(), 0);
       getGridSize();
+
+      return onContentReady ? onContentReady(e) : undefined;
     };
+
+    const onCellClickChild = (
+      e: DevExpress.ui.dxPivotGrid.CellClickEvent
+    ): ((e: DevExpress.ui.dxPivotGrid.CellClickEvent) => void) | void => {
+      return onCellClick ? onCellClick(e) : undefined;
+    };
+
+    const onContextMenuPreparingChild = (
+      e: DevExpress.ui.dxPivotGrid.ContextMenuPreparingEvent
+    ): ((e: DevExpress.ui.dxPivotGrid.ContextMenuPreparingEvent) => void) | void => {
+      return onContextMenuPreparing ? onContextMenuPreparing(e) : undefined;
+    };
+
+    const onDisposingChild = (
+      e: DevExpress.ui.dxPivotGrid.DisposingEvent
+    ): ((e: DevExpress.ui.dxPivotGrid.DisposingEvent) => void) | void => {
+      return onDisposing ? onDisposing(e) : undefined;
+    };
+
+    const onExportingChild = (
+      e: DevExpress.ui.dxPivotGrid.ExportingEvent
+    ): ((e: DevExpress.ui.dxPivotGrid.ExportingEvent) => void) | void => {
+      return onExporting ? onExporting(e) : undefined;
+    };
+
+    const onInitializedChild = (
+      e: DevExpress.ui.dxPivotGrid.InitializedEvent
+    ): ((e: DevExpress.ui.dxPivotGrid.InitializedEvent) => void) | void => {
+      return onInitialized ? onInitialized(e) : undefined;
+    };
+
+    const onOptionChangedChild = (
+      e: DevExpress.ui.dxPivotGrid.OptionChangedEvent
+    ): ((e: DevExpress.ui.dxPivotGrid.OptionChangedEvent) => void) | void => {
+      return onOptionChanged ? onOptionChanged(e) : undefined;
+    };
+
+    useEffect(() => {
+      if (customExcelButton) {
+      }
+    }, [customExcelButton]);
 
     useEffect(() => {
       setGridDataSource(dataSource);
@@ -468,31 +549,46 @@ const DxPlanitTreeGrid = forwardRef(
 
     return (
       <div>
-        <LoadPanel position={{ of: '#dx-planit-vera-pivotgrid-id' }} />
+        <LoadPanel position={{ of: id }} />
         <PivotGrid
-          id={'dx-planit-vera-pivotgrid-id'}
+          id={id}
           ref={$tableRef}
           dataSource={gridDataSource}
-          hideEmptySummaryCells={false}
-          allowSortingBySummary={true}
-          allowSorting={false}
-          allowFiltering={false}
-          allowExpandAll={true}
-          showRowTotals={true}
           showColumnTotals={false}
           showColumnGrandTotals={true}
           showRowGrandTotals={false}
-          showBorders={true}
-          wordWrapEnabled={false}
           width={width}
           height={height}
-          onContentReady={onContentReady}
-          onCellPrepared={onCellPrepared}
-          onExporting={onExporting}
+          allowExpandAll={allowExpandAll}
+          allowFiltering={allowFiltering}
+          allowSorting={allowSorting}
+          allowSortingBySummary={allowSortingBySummary}
+          dataFieldArea={dataFieldArea}
+          disabled={disabled}
+          elementAttr={elementAttr}
+          encodeHtml={encodeHtml}
+          hideEmptySummaryCells={hideEmptySummaryCells}
+          hint={hint}
+          rowHeaderLayout={rowHeaderLayout}
+          rtlEnabled={rtlEnabled}
+          showBorders={showBorders}
+          showRowTotals={showRowTotals}
+          showTotalsPrior={showTotalsPrior}
+          tabIndex={tabIndex}
+          visible={visible}
+          wordWrapEnabled={wordWrapEnabled}
+          onCellClick={onCellClickChild}
+          onContentReady={onContentReadyChild}
+          onCellPrepared={onCellPreparedChild}
+          onContextMenuPreparing={onContextMenuPreparingChild}
+          onDisposing={onDisposingChild}
+          onExporting={onExportingChild}
+          onInitialized={onInitializedChild}
+          onOptionChanged={onOptionChangedChild}
         >
-          <StateStoring enabled={stateStoring} type="sessionStorage" storageKey="dx-vera-pivotgrid-storing" />
+          <StateStoring enabled={stateStoringKey?.length} type="sessionStorage" storageKey={stateStoringKey} />
           <FieldChooser enabled={false} />
-          <Export enabled={true} />
+          {/* <Export enabled={false} /> */}
         </PivotGrid>
       </div>
     );

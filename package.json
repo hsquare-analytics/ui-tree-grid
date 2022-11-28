@@ -1,6 +1,7 @@
 {
   "name": "@bcahn/ui-tree-grid",
   "version": "0.1.0",
+  "description": "Devextreme의 DxPivotGrid를 Tree Grid처럼 보여주는 Wrapper입니다.",
   "private": true,
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

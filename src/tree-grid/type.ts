@@ -62,25 +62,10 @@ export interface DiagGridRes {
   allRefAmtForDiv?: string;
   allRefAmtForDivMed?: string;
   allGoalMtdAmtRateMed?: string;
-  // 인덱스 시그니처
   [prop: string]: any;
 }
 export type DiagGrid = {
   [K in keyof DiagGridRes]?: string | null;
-};
-
-export type DiagGridRes2 = {
-  분당본원: {};
-  분당여성: {};
-  분당난임: {};
-  // 인덱스 시그니처
-  [prop: string]: any;
-};
-
-export type HospitalType = {
-  분당본원: 'A';
-  분당여성: 'B';
-  분당난임: 'E';
 };
 
 export interface ICellInfo {
