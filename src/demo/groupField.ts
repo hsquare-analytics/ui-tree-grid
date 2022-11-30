@@ -4,6 +4,7 @@ export const TreeDataGroup: IGroupField[] = [
   {
     groupCaption: '진료 수입 (백만원)',
     groupName: 'mediIncome',
+    html: '진료 수입 <em>(백만원)</em>',
     depth: 1,
     colspan: 7,
   },
@@ -28,6 +29,7 @@ export const TreeDataGroup: IGroupField[] = [
   {
     groupCaption: '환자수 (명)',
     groupName: 'mediIncome',
+    html: '환자수 <em>(명)</em>',
     depth: 1,
     colspan: 6,
   },
@@ -52,6 +54,7 @@ export const TreeDataGroup: IGroupField[] = [
   {
     groupCaption: '인당 수입 (천원)',
     groupName: 'personIncome',
+    html: '인당 수입 <em>(천원)</em>',
     depth: 1,
     colspan: 4,
   },

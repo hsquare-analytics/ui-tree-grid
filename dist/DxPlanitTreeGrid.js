@@ -315,11 +315,9 @@ var DxPlanitTreeGrid = /*#__PURE__*/ (0, _react.forwardRef)(function (props, ref
    * @return
    */
   var makeColspan = function makeColspan(group, index, isLast) {
+    var _group$html;
     var td = document.createElement('td');
-    var text = group.groupCaption;
-    if (group.depth === 1) {
-      text = ''.concat(group.groupCaption);
-    }
+    var text = (_group$html = group.html) !== null && _group$html !== void 0 ? _group$html : group.groupCaption;
     td.setAttribute('colspan', group.colspan.toString());
     td.setAttribute('class', 'dx-row-total dx-grand-total dx-planit-colspan');
     if (isLast && index === 0) {
@@ -329,7 +327,7 @@ var DxPlanitTreeGrid = /*#__PURE__*/ (0, _react.forwardRef)(function (props, ref
     } else if (!isLast && index === 0) {
       td.setAttribute('style', 'border-bottom: 0');
     }
-    td.innerHTML = '<div>'.concat(text, '</div>');
+    td.innerHTML = '<span>'.concat(text, '</span>');
     return td;
   };
 

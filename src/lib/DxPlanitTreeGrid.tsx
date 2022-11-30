@@ -139,11 +139,7 @@ const DxPlanitTreeGrid = forwardRef(
      */
     const makeColspan = (group: IGroupField, index: number, isLast: boolean): HTMLElement => {
       const td = document.createElement('td');
-      let text = group.groupCaption;
-
-      if (group.depth === 1) {
-        text = `${group.groupCaption}`;
-      }
+      let text = group.html ?? group.groupCaption;
 
       td.setAttribute('colspan', group.colspan.toString());
       td.setAttribute('class', 'dx-row-total dx-grand-total dx-planit-colspan');
@@ -155,7 +151,7 @@ const DxPlanitTreeGrid = forwardRef(
       } else if (!isLast && index === 0) {
         td.setAttribute('style', 'border-bottom: 0');
       }
-      td.innerHTML = `<div>${text}</div>`;
+      td.innerHTML = `<span>${text}</span>`;
 
       return td;
     };

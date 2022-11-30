@@ -4,6 +4,7 @@ import { Format } from 'devextreme/localization';
 export interface IGroupField {
   groupCaption: string;
   groupName?: string;
+  html?: string;
   depth: number;
   colspan: number;
 }

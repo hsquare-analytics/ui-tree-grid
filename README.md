@@ -31,6 +31,7 @@ npm install devextreme-planit-treegrid-react
 import DxPlanitTreeGrid from 'devextreme-planit-treegrid-react'
 
 <DxPlanitTreeGrid
+  id='dx-planit-vera-pivotgrid-id'
   ref={$childRef}
   dataSource={dataSource}
   groupField={TreeDataGroup}
@@ -73,6 +74,7 @@ export const TreeDataGroup: IGroupField[] = [
   {
     groupCaption: '진료 수입 (백만원)',
     groupName: 'mediIncome',
+    html: '진료 수입 <em>(백만원)</em>',
     depth: 1,
     colspan: 7,
   },
@@ -89,7 +91,7 @@ export const TreeDataGroup: IGroupField[] = [
 
 \*\*Note: [DevExtreme PivotGrid](https://js.devexpress.com/Documentation/ApiReference/UI_Components/dxPivotGrid/) 중 아래의 기능은 사용 불능 처리되었습니다.
 
-> id, width, height, showColumnGrandTotals, showColumnTotals, showRowGrandTotals, FieldChooser
+> width, height, showColumnGrandTotals, showColumnTotals, showRowGrandTotals, FieldChooser
 
 \*\*Note: [DevExtreme PivotGrid](https://js.devexpress.com/Documentation/ApiReference/UI_Components/dxPivotGrid/) 중 아래의 기능은 사용 방법이 변경되었습니다.
 

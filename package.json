@@ -1,6 +1,6 @@
 {
   "name": "devextreme-planit-treegrid-react",
-  "version": "0.3.0",
+  "version": "1.1.0",
   "description": "Devextreme의 DxPivotGrid를 Tree Grid처럼 보여주는 Wrapper입니다.",
   "main": "dist/index.js",
   "files": [
@@ -39,7 +39,7 @@
   ],
   "dependencies": {
     "devextreme": "^22.1.6",
-    "devextreme-planit-treegrid-react": "^0.3.0",
+    "devextreme-planit-treegrid-react": "^1.1.0",
     "devextreme-react": "^22.1.6",
     "exceljs": "^4.3.0",
     "file-saver": "^2.0.5",

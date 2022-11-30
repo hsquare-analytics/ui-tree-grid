@@ -4,7 +4,7 @@ import { PivotGridField } from './gridField';
 
 import { DiagGrid } from './type';
 import { TestGridData } from './data';
-// import DxPlanitTreeGrid from '../lib/DxPlanitTreeGrid.js';
+// import DxPlanitTreeGrid from '../lib/DxPlanitTreeGrid';
 import DxPlanitTreeGrid from 'devextreme-planit-treegrid-react';
 
 import { TreeDataGroup } from './groupField';
@@ -121,6 +121,7 @@ const TestGrid = (): JSX.Element => {
 
       {gridData.data?.length && (
         <DxPlanitTreeGrid
+          id="dx-planit-vera-pivotgrid-id"
           ref={$childRef}
           dataSource={dataSource}
           groupField={TreeDataGroup}
