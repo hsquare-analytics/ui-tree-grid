@@ -1,6 +1,6 @@
-import { IGroupField } from 'lib/type';
+import { TypeDxPlanit } from 'devextreme-planit-treegrid-react';
 
-export const TreeDataGroup: IGroupField[] = [
+export const TreeDataGroup: TypeDxPlanit.IGroupField[] = [
   {
     groupCaption: '진료 수입 (백만원)',
     groupName: 'mediIncome',

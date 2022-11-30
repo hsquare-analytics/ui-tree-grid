@@ -74,7 +74,9 @@ value가 0 | '0' | '0%' 인 데이터를 하이픈('-')으로 보여줍니다.
 groupField는 그리드 상단에 colspan 된 새로운 column을 생성합니다. 자세한 사용법은 github의 demo 폴더를 확인하십시오.
 
 ```
-export const TreeDataGroup: IGroupField[] = [
+import { TypeDxPlanit } from 'devextreme-planit-treegrid-react';
+
+export const TreeDataGroup: TypeDxPlanit.IGroupField[] = [
   {
     groupCaption: '진료 수입 (백만원)',
     groupName: 'mediIncome',

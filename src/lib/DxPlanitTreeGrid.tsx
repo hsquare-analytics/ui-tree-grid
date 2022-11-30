@@ -5,11 +5,12 @@ import { LoadPanel } from 'devextreme-react/load-panel';
 import PivotGrid, { FieldChooser } from 'devextreme-react/pivot-grid';
 import { StateStoring } from 'devextreme-react/data-grid';
 import DevExpress from 'devextreme';
-import { ColumnField, IColorInfo, IGroupField, Props } from './type';
+// import { ColumnField, IColorInfo, IGroupField, Props } from './type';
 import { exportPivotGrid } from 'devextreme/excel_exporter';
 import { Workbook } from 'exceljs';
 import saveAs from 'file-saver';
 import PivotGridDataSource from 'devextreme/ui/pivot_grid/data_source';
+import { TypeDxPlanit } from './index.d';
 
 /**
  * devextreme pivotgrid Configrations 중 사용 불가 항목 : id, width, height, showColumnGrandTotals, showColumnTotals, showRowGrandTotals, FieldChooser
@@ -25,7 +26,7 @@ import PivotGridDataSource from 'devextreme/ui/pivot_grid/data_source';
 const grandTotalCssNm = 'data-grand-total';
 
 const DxPlanitTreeGrid = forwardRef(
-  (props: Props, ref: any): JSX.Element => {
+  (props: TypeDxPlanit.Props, ref: any): JSX.Element => {
     const {
       id = 'dx-planit-vera-pivotgrid-id',
       groupField,
@@ -137,7 +138,7 @@ const DxPlanitTreeGrid = forwardRef(
      * @param groupField 사용자가 작성한 그룹 정보
      * @return
      */
-    const makeColspan = (group: IGroupField, index: number, isLast: boolean): HTMLElement => {
+    const makeColspan = (group: TypeDxPlanit.IGroupField, index: number, isLast: boolean): HTMLElement => {
       const td = document.createElement('td');
       let text = group.html ?? group.groupCaption;
 
@@ -161,10 +162,10 @@ const DxPlanitTreeGrid = forwardRef(
      * @param groupField
      * @returns
      */
-    const makeCheckGroupData = (groupField: IGroupField[]): any => {
+    const makeCheckGroupData = (groupField: TypeDxPlanit.IGroupField[]): any => {
       const data: any = {};
 
-      groupField?.forEach((group: IGroupField) => {
+      groupField?.forEach((group: TypeDxPlanit.IGroupField) => {
         if (data[group.depth]) {
           data[group.depth] += group.colspan;
         } else {
@@ -180,7 +181,7 @@ const DxPlanitTreeGrid = forwardRef(
      * @param 사용자가 설정한 그룹 필드 정보
      * @returns 데이터 검증 결과
      */
-    const isCheckGroupField = (groupField: IGroupField[]): boolean => {
+    const isCheckGroupField = (groupField: TypeDxPlanit.IGroupField[]): boolean => {
       const map = makeCheckGroupData(groupField);
 
       for (const depth of Object.keys(map)) {
@@ -223,9 +224,9 @@ const DxPlanitTreeGrid = forwardRef(
      * @param arr
      * @returns
      */
-    const getGroupDepth = (group: IGroupField[], arr: 'asc' | 'desc'): number[] => {
+    const getGroupDepth = (group: TypeDxPlanit.IGroupField[], arr: 'asc' | 'desc'): number[] => {
       const groupData = group.slice();
-      const set = new Set(groupData.map((group: IGroupField) => group.depth));
+      const set = new Set(groupData.map((group: TypeDxPlanit.IGroupField) => group.depth));
       return Array.from(set).sort(function compare(a: number, b: number) {
         if (a > b) {
           return arr === 'asc' ? -1 : 1;
@@ -243,8 +244,8 @@ const DxPlanitTreeGrid = forwardRef(
      * @param depth
      * @returns
      */
-    const getCurrentGroup = (group: IGroupField[], depth: number): IGroupField[] => {
-      return group.filter((gr: IGroupField) => gr.depth === depth);
+    const getCurrentGroup = (group: TypeDxPlanit.IGroupField[], depth: number): TypeDxPlanit.IGroupField[] => {
+      return group.filter((gr: TypeDxPlanit.IGroupField) => gr.depth === depth);
     };
 
     /**
@@ -283,7 +284,7 @@ const DxPlanitTreeGrid = forwardRef(
 
         const tr = document.createElement('tr');
 
-        groupInfo.forEach((group: IGroupField, cellIndex: number) => {
+        groupInfo.forEach((group: TypeDxPlanit.IGroupField, cellIndex: number) => {
           const isLast = cellIndex === groupInfo.length - 1 ? true : false;
           tr.appendChild(makeColspan(group, index, isLast));
         });
@@ -299,13 +300,13 @@ const DxPlanitTreeGrid = forwardRef(
      * @param group
      * @returns
      */
-    const makeDataControllerColumnGroup = (group: IGroupField[]): ColumnField[][] => {
+    const makeDataControllerColumnGroup = (group: TypeDxPlanit.IGroupField[]): TypeDxPlanit.ColumnField[][] => {
       const groupData = group.slice();
       const depth = getGroupDepth(groupData, 'desc');
 
       return depth.map((dep: number) => {
         const groupInfo = getCurrentGroup(groupData, dep);
-        return groupInfo.map((group: IGroupField) => ({ colspan: group.colspan, text: group.groupCaption, type: 'GT' }));
+        return groupInfo.map((group: TypeDxPlanit.IGroupField) => ({ colspan: group.colspan, text: group.groupCaption, type: 'GT' }));
       });
     };
 
@@ -337,7 +338,7 @@ const DxPlanitTreeGrid = forwardRef(
         return;
       }
 
-      dataColor.forEach((color: IColorInfo) => {
+      dataColor.forEach((color: TypeDxPlanit.IColorInfo) => {
         if (e.cell.value === null) {
           return;
         }
@@ -407,8 +408,8 @@ const DxPlanitTreeGrid = forwardRef(
      * @returns devextreme component
      */
     const convertDataControllerColumnsInfo = (component: any): any => {
-      let arr: ColumnField[][] = [];
-      const columnInfo = component._dataController._columnsInfo.forEach((column: ColumnField[]) => {
+      let arr: TypeDxPlanit.ColumnField[][] = [];
+      const columnInfo = component._dataController._columnsInfo.forEach((column: TypeDxPlanit.ColumnField[]) => {
         let newColumn = column.slice();
         if (groupField && newColumn.length === 1 && newColumn[0].type === 'GT' && newColumn[0].text === 'Grand Total') {
           arr.push(...makeDataControllerColumnGroup(groupField));
@@ -514,11 +515,6 @@ const DxPlanitTreeGrid = forwardRef(
     ): ((e: DevExpress.ui.dxPivotGrid.OptionChangedEvent) => void) | void => {
       return onOptionChanged ? onOptionChanged(e) : undefined;
     };
-
-    useEffect(() => {
-      if (customExcelButton) {
-      }
-    }, [customExcelButton]);
 
     useEffect(() => {
       setGridDataSource(dataSource);
