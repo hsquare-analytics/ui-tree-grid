@@ -132,6 +132,17 @@ function _iterableToArrayLimit(arr, i) {
 function _arrayWithHoles(arr) {
   if (Array.isArray(arr)) return arr;
 }
+/**
+ * devextreme pivotgrid Configrations 중 사용 불가 항목 : id, width, height, showColumnGrandTotals, showColumnTotals, showRowGrandTotals, FieldChooser
+ * devextreme pivotgrid Configrations 중 사용 방법 변경 항목 : stateStoring, Export
+ * onExported, onFileSaving 이벤트 사용하지 않음.
+ */
+/**
+ * todoList:
+ * 2) columIndex 초기화 기능이 있어야 함(column 개수 변할 때)
+ * 3) 헤더에 테이블 삽입되면서 그리드 크기가 늘어남. height에 그리드 크기 늘어난 만큼 반영되어야 함.
+ */
+
 var grandTotalCssNm = 'data-grand-total';
 var DxPlanitTreeGrid = /*#__PURE__*/ (0, _react.forwardRef)(function (props, ref) {
   var _props$id = props.id,

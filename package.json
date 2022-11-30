@@ -1,9 +1,15 @@
 {
   "name": "devextreme-planit-treegrid-react",
-  "version": "1.1.2",
+  "version": "1.1.5",
   "description": "Devextreme의 DxPivotGrid를 Tree Grid처럼 보여주는 Wrapper입니다.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "files": [
+    "dist/DxPlanitTreeGrid.js",
+    "dist/index.d.ts",
+    "dist/index.js",
+    "README.md"
+  ],
   "repository": "https://github.com/hsquare-analytics/ui-tree-grid.git",
   "author": "bcahn <antonio1926@gmail.com>",
   "license": "MIT",
@@ -36,7 +42,7 @@
   ],
   "dependencies": {
     "devextreme": "^22.1.6",
-    "devextreme-planit-treegrid-react": "^1.1.2",
+    "devextreme-planit-treegrid-react": "^1.1.5",
     "devextreme-react": "^22.1.6",
     "exceljs": "^4.3.0",
     "file-saver": "^2.0.5",
