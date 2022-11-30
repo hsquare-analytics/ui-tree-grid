@@ -1,4 +1,4 @@
-import TestGrid from './tree-grid/TestGrid';
+import TestGrid from './demo/demo';
 import './App.css';
 import 'devextreme/dist/css/dx.light.css';
 

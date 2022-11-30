@@ -1,4 +1,4 @@
-import { IGroupField } from 'dx-planit-tree-grid/type';
+import { IGroupField } from 'lib/type';
 
 export const TreeDataGroup: IGroupField[] = [
   {

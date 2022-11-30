@@ -10,9 +10,17 @@ module.exports = {
     rules: [
       {
         test: /\.(ts|tsx)$/,
+        exclude: /(node_modules)/,
         use: {
           loader: 'babel-loader',
         },
+        query: {
+          presets: ['react'],
+        },
+      },
+      {
+        test: /\.css$/i,
+        use: ['style-loader', 'css-loader'],
       },
     ],
   },

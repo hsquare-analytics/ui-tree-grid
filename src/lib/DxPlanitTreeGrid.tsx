@@ -2,31 +2,14 @@ import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 're
 
 import { LoadPanel } from 'devextreme-react/load-panel';
 
-import PivotGrid, { Export, FieldChooser } from 'devextreme-react/pivot-grid';
+import PivotGrid, { FieldChooser } from 'devextreme-react/pivot-grid';
 import { StateStoring } from 'devextreme-react/data-grid';
 import DevExpress from 'devextreme';
-import { IColorInfo, IGroupField } from './type';
+import { ColumnField, IColorInfo, IGroupField, Props } from './type';
 import { exportPivotGrid } from 'devextreme/excel_exporter';
 import { Workbook } from 'exceljs';
 import saveAs from 'file-saver';
 import PivotGridDataSource from 'devextreme/ui/pivot_grid/data_source';
-
-interface ColumnField {
-  colspan: number;
-  text: string;
-  type: string;
-}
-
-interface Props extends DevExpress.ui.dxPivotGrid.Properties {
-  id?: string;
-  dataSource?: any;
-  groupField?: IGroupField[];
-  dataColor?: IColorInfo[];
-  convertNullToHipen?: boolean;
-  convertZeroToHipen?: boolean;
-  stateStoringKey?: string;
-  customExcelButton?: boolean;
-}
 
 /**
  * devextreme pivotgrid Configrations 중 사용 불가 항목 : id, width, height, showColumnGrandTotals, showColumnTotals, showRowGrandTotals, FieldChooser
@@ -588,7 +571,6 @@ const DxPlanitTreeGrid = forwardRef(
         >
           <StateStoring enabled={stateStoringKey?.length} type="sessionStorage" storageKey={stateStoringKey} />
           <FieldChooser enabled={false} />
-          {/* <Export enabled={false} /> */}
         </PivotGrid>
       </div>
     );

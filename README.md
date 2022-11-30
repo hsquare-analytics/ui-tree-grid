@@ -1,70 +1,105 @@
-# Getting Started with Create React App
+# DevExtreme Planit Tree Grid
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+DevExtreme Planit Tree Grid는 Devextreme의 PivotGrid에 Colspan과 컬러 지정 기능 등의 몇 가지 추가 기능을 설정한 React Wrapper입니다.
+코드는 React와 typescript로 작성되었으며, DevExtreme 22.1 버전에서 테스트 되었습니다.
 
-## Available Scripts
+## Dependecies
 
-In the project directory, you can run:
+엑셀 다운로드 기능을 위해 아래의 두 의존성을 반드시 설치해야 합니다.
 
-### `npm start`
+```
+npm install exceljs
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+npm install file-saver
+```
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Getting Started
 
-### `npm test`
+DevExtreme이 설치되어 있어야 합니다.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```
+npm install devextreme
+```
 
-### `npm run build`
+```
+npm install devextreme-planit-treegrid-react
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+사용 방법은 DevExtreme의 PivotGrid의 사용방법과 같습니다. [DevExtreme PivotGrid](https://js.devexpress.com/Documentation/ApiReference/UI_Components/dxPivotGrid/)의 기능을 그대로 사용하실 수 있습니다.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```
+import DxPlanitTreeGrid from 'devextreme-planit-treegrid-react'
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+<DxPlanitTreeGrid
+  ref={$childRef}
+  dataSource={dataSource}
+  groupField={TreeDataGroup}
+  dataColor={[
+    { format: 'percent', color: 'rgb(26, 169, 228)', condition: '>= 110' },
+    { format: 'percent', color: '#fd7e14', condition: '< 100' },
+  ]}
+  convertNullToHipen={true}
+  convertZeroToHipen={true}
+  stateStoringKey={'dx-vera-pivotgrid-storing'}
+  allowSortingBySummary={true}
+  ...
+/>
+```
 
-### `npm run eject`
+DevExtreme PivotGrid에 몇몇 기능이 추가되었습니다. 추가된 기능은 아래와 같습니다.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### 1. dataColor
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+특정 조건 데이터의 컬러를 직접 지정하실 수 있습니다.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+1. format: [DevExtreme PivotGrid Data Format](https://js.devexpress.com/Documentation/ApiReference/Common/Object_Structures/Format/) 타입을 사용하실 수 있습니다.
+2. color: (string) 사용하고자 하는 컬러값을 rgba 혹은 hex 형식으로 입력합니다.
+3. condition: (string) 컬러값을 사용할 조건을 입력합니다.(예: 100보다 큰 수에만 컬러를 적용하고자 하는 경우 '> 100')
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### 2. convertNullToHipen
 
-## Learn More
+value가 null 인 데이터를 하이픈('-')으로 보여줍니다.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### 3. convertZeroToHipen
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+value가 0 | '0' | '0%' 인 데이터를 하이픈('-')으로 보여줍니다.
 
-### Code Splitting
+### 4. groupField
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+groupField는 그리드 상단에 colspan 된 새로운 column을 생성합니다. 자세한 사용법은 github의 demo 폴더를 확인하십시오.
 
-### Analyzing the Bundle Size
+```
+export const TreeDataGroup: IGroupField[] = [
+  {
+    groupCaption: '진료 수입 (백만원)',
+    groupName: 'mediIncome',
+    depth: 1,
+    colspan: 7,
+  },
+  {
+    groupCaption: '전체',
+    groupName: 'mediIncomeAll',
+    depth: 2,
+    colspan: 3,
+  },
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+  ....
 
-### Making a Progressive Web App
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+\*\*Note: [DevExtreme PivotGrid](https://js.devexpress.com/Documentation/ApiReference/UI_Components/dxPivotGrid/) 중 아래의 기능은 사용 불능 처리되었습니다.
 
-### Advanced Configuration
+> id, width, height, showColumnGrandTotals, showColumnTotals, showRowGrandTotals, FieldChooser
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+\*\*Note: [DevExtreme PivotGrid](https://js.devexpress.com/Documentation/ApiReference/UI_Components/dxPivotGrid/) 중 아래의 기능은 사용 방법이 변경되었습니다.
 
-### Deployment
+> &lt;StateStoring enabled='true' /&gt; 은 stateStoringKey: boolean property로 대체되었습니다.
+>
+> stateStoringKey가 없을 경우, &lt;StateStoring enabled='false' /&gt; 와 동일하게 작동합니다.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+```
+<DxPlanitTreeGrid
+  stateStoringKey={'dx-vera-pivotgrid-storing'}
+  ...
+/>
+```

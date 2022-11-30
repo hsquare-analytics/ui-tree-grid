@@ -4,9 +4,10 @@ import { PivotGridField } from './gridField';
 
 import { DiagGrid } from './type';
 import { TestGridData } from './data';
-import DxPlanitTreeGrid from 'dx-planit-tree-grid/DxPlanitTreeGrid';
+// import DxPlanitTreeGrid from '../lib/DxPlanitTreeGrid.js';
+import DxPlanitTreeGrid from 'devextreme-planit-treegrid-react';
+
 import { TreeDataGroup } from './groupField';
-import LoadPanel from 'devextreme-react/load-panel';
 
 type DataStatus = 'pending' | 'loading' | 'success' | 'error';
 type GridPivotState = {

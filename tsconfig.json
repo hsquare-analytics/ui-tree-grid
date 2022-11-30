@@ -2,7 +2,7 @@
   "compilerOptions": {
     "baseUrl": "src",
     "target": "ES2015",
-    "lib": ["dom", "dom.iterable", "ES2015"],
+    "lib": ["dom", "dom.iterable", "ESNext", "ScriptHost", "ES2016.Array.Include"],
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -10,7 +10,7 @@
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
-    "module": "ES2015",
+    "module": "esnext",
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
@@ -18,7 +18,8 @@
     "jsx": "react-jsx",
     "declaration": true /* Generates corresponding '.d.ts' file. */,
     "outDir": "./dist",
-    "rootDir": "./src"
+    "rootDir": "./src",
+    "typeRoots": ["index.d.ts", "./node_modules/@types"]
   },
   "include": ["src"]
 }

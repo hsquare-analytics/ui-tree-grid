@@ -1,37 +1,30 @@
 {
-  "name": "@bcahn/ui-tree-grid",
-  "version": "0.1.0",
+  "name": "devextreme-planit-treegrid-react",
+  "version": "0.3.0",
   "description": "Devextreme의 DxPivotGrid를 Tree Grid처럼 보여주는 Wrapper입니다.",
-  "private": true,
   "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "README.md"
+  ],
   "repository": "https://github.com/hsquare-analytics/ui-tree-grid.git",
   "author": "bcahn <antonio1926@gmail.com>",
   "license": "MIT",
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com/"
-  },
-  "dependencies": {
-    "@testing-library/jest-dom": "^5.16.5",
-    "@testing-library/react": "^13.4.0",
-    "@testing-library/user-event": "^13.5.0",
-    "devextreme": "^22.1.6",
-    "devextreme-react": "^22.1.6",
-    "exceljs": "^4.3.0",
-    "file-saver": "^2.0.5",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-router-dom": "^6.4.3",
-    "react-scripts": "^5.0.1",
-    "typescript": "^4.9.3",
-    "uuid": "^9.0.0",
-    "web-vitals": "^2.1.4"
+    "registry": "https://registry.npmjs.org/"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "clean": "rimraf dist",
+    "compile": "npm run clean && cross-env NODE_ENV=production babel src/lib --out-dir dist --copy-files --extensions .ts,.tsx"
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-react"
+    ]
   },
   "eslintConfig": {
     "extends": [
@@ -39,24 +32,50 @@
       "react-app/jest"
     ]
   },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not op_mini all"
+  ],
+  "dependencies": {
+    "devextreme": "^22.1.6",
+    "devextreme-planit-treegrid-react": "^0.3.0",
+    "devextreme-react": "^22.1.6",
+    "exceljs": "^4.3.0",
+    "file-saver": "^2.0.5",
+    "typescript": "^4.9.3",
+    "uuid": "^9.0.0",
+    "web-vitals": "^2.1.4"
+  },
+  "peerDependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.4.3",
+    "react-scripts": "^5.0.1"
   },
   "devDependencies": {
+    "@babel/cli": "^7.0.0",
+    "@babel/core": "^7.20.5",
+    "@babel/node": "^7.20.5",
+    "@babel/polyfill": "^7.12.1",
+    "@babel/preset-env": "^7.20.2",
+    "@babel/preset-react": "^7.18.6",
+    "@babel/preset-typescript": "^7.18.6",
+    "@babel/register": "^7.18.9",
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
     "@types/file-saver": "^2.0.5",
     "@types/react": "^18.0.25",
     "@types/react-dom": "^18.0.9",
     "@types/uuid": "^8.3.4",
+    "babel-core": "^7.0.0-bridge.0",
+    "babel-loader": "^8.0.0-beta.6",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "cross-env": "^7.0.3",
+    "css-loader": "^6.7.2",
     "eslint": "^8.27.0",
-    "prettier": "^2.7.1"
+    "prettier": "^2.7.1",
+    "style-loader": "^3.3.1"
   }
 }
