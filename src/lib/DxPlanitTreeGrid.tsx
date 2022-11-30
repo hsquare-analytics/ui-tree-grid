@@ -391,7 +391,7 @@ const DxPlanitTreeGrid = forwardRef(
      * 그리드 펼침 정보 세션스토리지 리셋
      */
     const resetSession = (): void => {
-      sessionStorage.removeItem('dx-vera-pivotgrid-storing');
+      sessionStorage.removeItem(stateStoringKey);
     };
 
     /**
@@ -517,9 +517,9 @@ const DxPlanitTreeGrid = forwardRef(
     };
 
     useEffect(() => {
+      resetSession();
       setGridDataSource(dataSource);
       checkDataSource(dataSource);
-      resetSession();
     }, [dataSource]);
 
     return (
