@@ -18,7 +18,7 @@ npm install file-saver
 DevExtreme이 설치되어 있어야 합니다.
 
 ```
-npm install devextreme
+npm install devextreme devextreme-react
 ```
 
 ```
@@ -45,6 +45,10 @@ import DxPlanitTreeGrid from 'devextreme-planit-treegrid-react'
   allowSortingBySummary={true}
   ...
 />
+```
+
+```
+**Note: id가 필수사항은 아니지만 가급적 사용할 것을 권고합니다. id를 사용하지 않으면 한 페이지에 여러 개의 Tree Grid를 생성할 경우 DevExtreme의 Load Pannel이 의도치 않은 곳에 생성될 수 있습니다.
 ```
 
 DevExtreme PivotGrid에 몇몇 기능이 추가되었습니다. 추가된 기능은 아래와 같습니다.
