@@ -584,7 +584,7 @@ var DxPlanitTreeGrid = /*#__PURE__*/ (0, _react.forwardRef)(function (props, ref
    * 그리드 펼침 정보 세션스토리지 리셋
    */
   var resetSession = function resetSession() {
-    sessionStorage.removeItem('dx-vera-pivotgrid-storing');
+    sessionStorage.removeItem(stateStoringKey);
   };
 
   /**
@@ -698,9 +698,9 @@ var DxPlanitTreeGrid = /*#__PURE__*/ (0, _react.forwardRef)(function (props, ref
   };
   (0, _react.useEffect)(
     function () {
+      resetSession();
       setGridDataSource(dataSource);
       checkDataSource(dataSource);
-      resetSession();
     },
     [dataSource]
   );
