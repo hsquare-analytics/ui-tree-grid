@@ -5,7 +5,6 @@ import { LoadPanel } from 'devextreme-react/load-panel';
 import PivotGrid, { FieldChooser } from 'devextreme-react/pivot-grid';
 import { StateStoring } from 'devextreme-react/data-grid';
 import DevExpress from 'devextreme';
-// import { ColumnField, IColorInfo, IGroupField, Props } from './type';
 import { exportPivotGrid } from 'devextreme/excel_exporter';
 import { Workbook } from 'exceljs';
 import saveAs from 'file-saver';
@@ -186,7 +185,7 @@ const DxPlanitTreeGrid = forwardRef(
 
       for (const depth of Object.keys(map)) {
         if (map[depth] !== columnIndex + 1) {
-          console.error('그룹 데이터의 children 숫자가 columnIndex와 맞지 않습니다. 다시 한 번 확인 바랍니다.');
+          console.error('그룹 데이터의 colspan 숫자가 columnIndex와 맞지 않습니다. 다시 한 번 확인 바랍니다.');
         }
       }
 
@@ -374,6 +373,11 @@ const DxPlanitTreeGrid = forwardRef(
      * @param dataSource
      */
     const checkDataSource = (dataSource: any): void => {
+      if (!dataSource._fields) {
+        throw Error(
+          'PivotGridDataSource 의 field 정보가 없습니다. 올바른 field 정보를 입력하세요. https://js.devexpress.com/Documentation/ApiReference/Data_Layer/PivotGridDataSource/Configuration/fields/'
+        );
+      }
       const isColumns = dataSource._fields.findIndex((field: any) => field.area === 'column');
       const isRows = dataSource._fields.findIndex((field: any) => field.area === 'row');
       const isDatas = dataSource._fields.findIndex((field: any) => field.area === 'data');
