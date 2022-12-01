@@ -4,8 +4,8 @@ import { PivotGridField } from './gridField';
 
 import { DiagGrid } from './type';
 import { TestGridData } from './data';
-import DxPlanitTreeGrid from '../lib/DxPlanitTreeGrid';
-// import DxPlanitTreeGrid from 'devextreme-planit-treegrid-react';
+// import DxPlanitTreeGrid from '../lib/DxPlanitTreeGrid';
+import DxPlanitTreeGrid from 'devextreme-planit-treegrid-react';
 
 import { TreeDataGroup } from './groupField';
 

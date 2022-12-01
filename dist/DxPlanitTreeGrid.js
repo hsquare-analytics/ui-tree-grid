@@ -360,7 +360,7 @@ var DxPlanitTreeGrid = /*#__PURE__*/ (0, _react.forwardRef)(function (props, ref
     for (var _i2 = 0, _Object$keys = Object.keys(map); _i2 < _Object$keys.length; _i2++) {
       var depth = _Object$keys[_i2];
       if (map[depth] !== columnIndex + 1) {
-        console.error('그룹 데이터의 children 숫자가 columnIndex와 맞지 않습니다. 다시 한 번 확인 바랍니다.');
+        console.error('그룹 데이터의 colspan 숫자가 columnIndex와 맞지 않습니다. 다시 한 번 확인 바랍니다.');
       }
     }
     return true;
@@ -563,6 +563,11 @@ var DxPlanitTreeGrid = /*#__PURE__*/ (0, _react.forwardRef)(function (props, ref
    * @param dataSource
    */
   var checkDataSource = function checkDataSource(dataSource) {
+    if (!dataSource._fields) {
+      throw Error(
+        'PivotGridDataSource 의 field 정보가 없습니다. 올바른 field 정보를 입력하세요. https://js.devexpress.com/Documentation/ApiReference/Data_Layer/PivotGridDataSource/Configuration/fields/'
+      );
+    }
     var isColumns = dataSource._fields.findIndex(function (field) {
       return field.area === 'column';
     });
@@ -698,67 +703,74 @@ var DxPlanitTreeGrid = /*#__PURE__*/ (0, _react.forwardRef)(function (props, ref
   };
   (0, _react.useEffect)(
     function () {
-      resetSession();
-      setGridDataSource(dataSource);
-      checkDataSource(dataSource);
+      if (Object.keys(dataSource).length) {
+        resetSession();
+        setGridDataSource(dataSource);
+        checkDataSource(dataSource);
+      }
     },
     [dataSource]
   );
   return /*#__PURE__*/ _react.createElement(
-    'div',
+    _react.Fragment,
     null,
-    /*#__PURE__*/ _react.createElement(_loadPanel.LoadPanel, {
-      position: {
-        of: id,
-      },
-    }),
-    /*#__PURE__*/ _react.createElement(
-      _pivotGrid.default,
-      {
-        id: id,
-        ref: $tableRef,
-        dataSource: gridDataSource,
-        showColumnTotals: false,
-        showColumnGrandTotals: true,
-        showRowGrandTotals: false,
-        width: width,
-        height: height,
-        allowExpandAll: allowExpandAll,
-        allowFiltering: allowFiltering,
-        allowSorting: allowSorting,
-        allowSortingBySummary: allowSortingBySummary,
-        dataFieldArea: dataFieldArea,
-        disabled: disabled,
-        elementAttr: elementAttr,
-        encodeHtml: encodeHtml,
-        hideEmptySummaryCells: hideEmptySummaryCells,
-        hint: hint,
-        rowHeaderLayout: rowHeaderLayout,
-        rtlEnabled: rtlEnabled,
-        showBorders: showBorders,
-        showRowTotals: showRowTotals,
-        showTotalsPrior: showTotalsPrior,
-        tabIndex: tabIndex,
-        visible: visible,
-        wordWrapEnabled: wordWrapEnabled,
-        onCellClick: onCellClickChild,
-        onContentReady: onContentReadyChild,
-        onCellPrepared: onCellPreparedChild,
-        onContextMenuPreparing: onContextMenuPreparingChild,
-        onDisposing: onDisposingChild,
-        onExporting: onExportingChild,
-        onInitialized: onInitializedChild,
-        onOptionChanged: onOptionChangedChild,
-      },
-      /*#__PURE__*/ _react.createElement(_dataGrid.StateStoring, {
-        enabled: stateStoringKey === null || stateStoringKey === void 0 ? void 0 : stateStoringKey.length,
-        type: 'sessionStorage',
-        storageKey: stateStoringKey,
-      }),
-      /*#__PURE__*/ _react.createElement(_pivotGrid.FieldChooser, {
-        enabled: false,
-      })
-    )
+    Object.keys(gridDataSource).length &&
+      /*#__PURE__*/ _react.createElement(
+        'div',
+        null,
+        /*#__PURE__*/ _react.createElement(_loadPanel.LoadPanel, {
+          position: {
+            of: id,
+          },
+        }),
+        /*#__PURE__*/ _react.createElement(
+          _pivotGrid.default,
+          {
+            id: id,
+            ref: $tableRef,
+            dataSource: gridDataSource,
+            showColumnTotals: false,
+            showColumnGrandTotals: true,
+            showRowGrandTotals: false,
+            width: width,
+            height: height,
+            allowExpandAll: allowExpandAll,
+            allowFiltering: allowFiltering,
+            allowSorting: allowSorting,
+            allowSortingBySummary: allowSortingBySummary,
+            dataFieldArea: dataFieldArea,
+            disabled: disabled,
+            elementAttr: elementAttr,
+            encodeHtml: encodeHtml,
+            hideEmptySummaryCells: hideEmptySummaryCells,
+            hint: hint,
+            rowHeaderLayout: rowHeaderLayout,
+            rtlEnabled: rtlEnabled,
+            showBorders: showBorders,
+            showRowTotals: showRowTotals,
+            showTotalsPrior: showTotalsPrior,
+            tabIndex: tabIndex,
+            visible: visible,
+            wordWrapEnabled: wordWrapEnabled,
+            onCellClick: onCellClickChild,
+            onContentReady: onContentReadyChild,
+            onCellPrepared: onCellPreparedChild,
+            onContextMenuPreparing: onContextMenuPreparingChild,
+            onDisposing: onDisposingChild,
+            onExporting: onExportingChild,
+            onInitialized: onInitializedChild,
+            onOptionChanged: onOptionChangedChild,
+          },
+          /*#__PURE__*/ _react.createElement(_dataGrid.StateStoring, {
+            enabled: stateStoringKey === null || stateStoringKey === void 0 ? void 0 : stateStoringKey.length,
+            type: 'sessionStorage',
+            storageKey: stateStoringKey,
+          }),
+          /*#__PURE__*/ _react.createElement(_pivotGrid.FieldChooser, {
+            enabled: false,
+          })
+        )
+      )
   );
 });
 var _default = DxPlanitTreeGrid;

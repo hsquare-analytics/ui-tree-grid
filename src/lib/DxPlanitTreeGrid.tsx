@@ -521,54 +521,60 @@ const DxPlanitTreeGrid = forwardRef(
     };
 
     useEffect(() => {
-      resetSession();
-      setGridDataSource(dataSource);
-      checkDataSource(dataSource);
+      if (Object.keys(dataSource).length) {
+        resetSession();
+        setGridDataSource(dataSource);
+        checkDataSource(dataSource);
+      }
     }, [dataSource]);
 
     return (
-      <div>
-        <LoadPanel position={{ of: id }} />
-        <PivotGrid
-          id={id}
-          ref={$tableRef}
-          dataSource={gridDataSource}
-          showColumnTotals={false}
-          showColumnGrandTotals={true}
-          showRowGrandTotals={false}
-          width={width}
-          height={height}
-          allowExpandAll={allowExpandAll}
-          allowFiltering={allowFiltering}
-          allowSorting={allowSorting}
-          allowSortingBySummary={allowSortingBySummary}
-          dataFieldArea={dataFieldArea}
-          disabled={disabled}
-          elementAttr={elementAttr}
-          encodeHtml={encodeHtml}
-          hideEmptySummaryCells={hideEmptySummaryCells}
-          hint={hint}
-          rowHeaderLayout={rowHeaderLayout}
-          rtlEnabled={rtlEnabled}
-          showBorders={showBorders}
-          showRowTotals={showRowTotals}
-          showTotalsPrior={showTotalsPrior}
-          tabIndex={tabIndex}
-          visible={visible}
-          wordWrapEnabled={wordWrapEnabled}
-          onCellClick={onCellClickChild}
-          onContentReady={onContentReadyChild}
-          onCellPrepared={onCellPreparedChild}
-          onContextMenuPreparing={onContextMenuPreparingChild}
-          onDisposing={onDisposingChild}
-          onExporting={onExportingChild}
-          onInitialized={onInitializedChild}
-          onOptionChanged={onOptionChangedChild}
-        >
-          <StateStoring enabled={stateStoringKey?.length} type="sessionStorage" storageKey={stateStoringKey} />
-          <FieldChooser enabled={false} />
-        </PivotGrid>
-      </div>
+      <>
+        {Object.keys(gridDataSource).length && (
+          <div>
+            <LoadPanel position={{ of: id }} />
+            <PivotGrid
+              id={id}
+              ref={$tableRef}
+              dataSource={gridDataSource}
+              showColumnTotals={false}
+              showColumnGrandTotals={true}
+              showRowGrandTotals={false}
+              width={width}
+              height={height}
+              allowExpandAll={allowExpandAll}
+              allowFiltering={allowFiltering}
+              allowSorting={allowSorting}
+              allowSortingBySummary={allowSortingBySummary}
+              dataFieldArea={dataFieldArea}
+              disabled={disabled}
+              elementAttr={elementAttr}
+              encodeHtml={encodeHtml}
+              hideEmptySummaryCells={hideEmptySummaryCells}
+              hint={hint}
+              rowHeaderLayout={rowHeaderLayout}
+              rtlEnabled={rtlEnabled}
+              showBorders={showBorders}
+              showRowTotals={showRowTotals}
+              showTotalsPrior={showTotalsPrior}
+              tabIndex={tabIndex}
+              visible={visible}
+              wordWrapEnabled={wordWrapEnabled}
+              onCellClick={onCellClickChild}
+              onContentReady={onContentReadyChild}
+              onCellPrepared={onCellPreparedChild}
+              onContextMenuPreparing={onContextMenuPreparingChild}
+              onDisposing={onDisposingChild}
+              onExporting={onExportingChild}
+              onInitialized={onInitializedChild}
+              onOptionChanged={onOptionChangedChild}
+            >
+              <StateStoring enabled={stateStoringKey?.length} type="sessionStorage" storageKey={stateStoringKey} />
+              <FieldChooser enabled={false} />
+            </PivotGrid>
+          </div>
+        )}
+      </>
     );
   }
 );

@@ -14,21 +14,18 @@ export const PivotGridField = (gridData: GridPivotState): PivotGridDataSource =>
         caption: '기관',
         dataField: 'hospitalType',
         area: 'row',
-        name: '',
         width: 80,
       },
       {
         caption: '진료과',
         dataField: 'medDeptNm',
         area: 'row',
-        name: '',
         width: 120,
       },
       {
         caption: '진료의',
         dataField: 'medrStfNm',
         area: 'row',
-        name: '',
         width: 80,
       },
 
