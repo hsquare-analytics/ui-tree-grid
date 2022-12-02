@@ -30,21 +30,29 @@ npm install devextreme-planit-treegrid-react
 ```
 import DxPlanitTreeGrid from 'devextreme-planit-treegrid-react'
 
-<DxPlanitTreeGrid
-  id='dx-planit-vera-pivotgrid-id'
-  ref={$childRef}
-  dataSource={dataSource}
-  groupField={TreeDataGroup}
-  dataColor={[
-    { format: 'percent', color: 'rgb(26, 169, 228)', condition: '>= 110' },
-    { format: 'percent', color: '#fd7e14', condition: '< 100' },
-  ]}
-  convertNullToHipen={true}
-  convertZeroToHipen={true}
-  stateStoringKey={'dx-vera-pivotgrid-storing'}
-  allowSortingBySummary={true}
-  ...
-/>
+<>
+  <LoadPanel position={{ of: 'dx-planit-vera-pivotgrid-id' }} />
+  <DxPlanitTreeGrid
+    id="dx-planit-vera-pivotgrid-id"
+    ref={$childRef}
+    dataSource={dataSource}
+    groupField={TreeDataGroup}
+    dataColor={[
+      { format: 'percent', color: 'rgb(26, 169, 228)', condition: '>= 110' },
+      { format: 'percent', color: '#fd7e14', condition: '< 100' },
+    ]}
+    convertNullToHipen={true}
+    convertZeroToHipen={true}
+    allowSortingBySummary={true}
+    allowFiltering={true}
+    allowSorting={true}
+    ...
+  >
+    <HeaderFilter allowSearch={true} showRelevantValues={true} />
+    <FieldPanel visible={true} />
+    <StateStoring enabled={true} type="sessionStorage" storageKey={'dx-vera-pivotgrid-storing'} />
+  </DxPlanitTreeGrid>
+</>
 ```
 
 ```
@@ -95,19 +103,10 @@ export const TreeDataGroup: TypeDxPlanit.IGroupField[] = [
 
 ```
 
-\*\*Note: [DevExtreme PivotGrid](https://js.devexpress.com/Documentation/ApiReference/UI_Components/dxPivotGrid/) 중 아래의 기능은 사용 불능 처리되었습니다.
+\*\*Note: [DevExtreme PivotGrid](https://js.devexpress.com/Documentation/ApiReference/UI_Components/dxPivotGrid/) 의 property중 아래의 기능은 사용 불능 처리되었습니다.
 
 > width, height, showColumnGrandTotals, showColumnTotals, showRowGrandTotals, FieldChooser
 
-\*\*Note: [DevExtreme PivotGrid](https://js.devexpress.com/Documentation/ApiReference/UI_Components/dxPivotGrid/) 중 아래의 기능은 사용 방법이 변경되었습니다.
+\*\*Note: [DevExtreme PivotGrid](https://js.devexpress.com/Documentation/ApiReference/UI_Components/dxPivotGrid/) 추가 기능 중 아래의 기능은 일부 제한되었습니다.
 
-> &lt;StateStoring enabled='true' /&gt; 은 stateStoringKey: boolean property로 대체되었습니다.
->
-> stateStoringKey가 없을 경우, &lt;StateStoring enabled='false' /&gt; 와 동일하게 작동합니다.
-
-```
-<DxPlanitTreeGrid
-  stateStoringKey={'dx-vera-pivotgrid-storing'}
-  ...
-/>
-```
+> &lt;FieldPanel enabled='true' /&gt; 의 속성 중 showColumnFields, showDataFields, showFilterFields 은 사용 불능 처리되었습니다.

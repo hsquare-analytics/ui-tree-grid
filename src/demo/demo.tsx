@@ -119,14 +119,7 @@ const TestGrid = (): JSX.Element => {
           allowSorting={true}
         >
           <HeaderFilter allowSearch={true} showRelevantValues={true} />
-          <FieldPanel
-            visible={true}
-            allowFieldDragging={false}
-            showColumnFields={false}
-            showFilterFields={false}
-            showDataFields={false}
-            showRowFields={true}
-          />
+          <FieldPanel visible={true} />
           <StateStoring enabled={true} type="sessionStorage" storageKey={'dx-vera-pivotgrid-storing'} />
         </DxPlanitTreeGrid>
       </>

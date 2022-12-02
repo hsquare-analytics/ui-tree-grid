@@ -91,11 +91,11 @@ const DxPlanitTreeGrid = forwardRef(
           <FieldPanel
             key={'FieldPanel' + index}
             visible={child.props.visible ?? false}
-            allowFieldDragging={child.props.allowFieldDragging ?? false}
+            allowFieldDragging={child.props.allowFieldDragging ?? true}
             showColumnFields={false}
             showFilterFields={false}
             showDataFields={false}
-            showRowFields={child.props.showRowFields ?? false}
+            showRowFields={child.props.showRowFields ?? true}
           />
         );
       }
