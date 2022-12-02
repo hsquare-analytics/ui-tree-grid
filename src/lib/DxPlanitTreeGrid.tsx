@@ -1,18 +1,17 @@
-import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
+import { forwardRef, ReactNode, useEffect, useImperativeHandle, useRef, useState } from 'react';
 
-import { LoadPanel } from 'devextreme-react/load-panel';
-
-import PivotGrid, { FieldChooser } from 'devextreme-react/pivot-grid';
-import { StateStoring } from 'devextreme-react/data-grid';
+import PivotGrid, { HeaderFilter, FieldChooser, FieldPanel } from 'devextreme-react/pivot-grid';
+import { Format, StateStoring } from 'devextreme-react/data-grid';
 import DevExpress from 'devextreme';
 import { exportPivotGrid } from 'devextreme/excel_exporter';
 import { Workbook } from 'exceljs';
 import saveAs from 'file-saver';
 import PivotGridDataSource from 'devextreme/ui/pivot_grid/data_source';
 import { TypeDxPlanit } from './index.d';
+import React from 'react';
 
 /**
- * devextreme pivotgrid Configrations 중 사용 불가 항목 : id, width, height, showColumnGrandTotals, showColumnTotals, showRowGrandTotals, FieldChooser
+ * devextreme pivotgrid Configrations 중 사용 불가 항목 : id, width, height, showColumnGrandTotals, showColumnTotals, showRowGrandTotals, FieldChooser. fieldPanel,
  * devextreme pivotgrid Configrations 중 사용 방법 변경 항목 : stateStoring, Export
  * onExported, onFileSaving 이벤트 사용하지 않음.
  */
@@ -27,12 +26,12 @@ const grandTotalCssNm = 'data-grand-total';
 const DxPlanitTreeGrid = forwardRef(
   (props: TypeDxPlanit.Props, ref: any): JSX.Element => {
     const {
+      children,
       id = 'dx-planit-vera-pivotgrid-id',
       groupField,
       dataColor,
       convertNullToHipen = true,
       convertZeroToHipen = true,
-      stateStoringKey = '',
       allowExpandAll = false,
       allowFiltering = false,
       allowSorting = false,
@@ -52,7 +51,6 @@ const DxPlanitTreeGrid = forwardRef(
       tabIndex = 0,
       visible = true,
       wordWrapEnabled = false,
-      customExcelButton = false,
       onCellClick,
       onCellPrepared,
       onContentReady,
@@ -71,9 +69,38 @@ const DxPlanitTreeGrid = forwardRef(
     const $tableRef = useRef<PivotGrid>(null);
     const excelBorder = { style: 'thin', color: { argb: 'FF7E7E7E' } };
 
-    useImperativeHandle(ref, () => ({
-      exportToExcel,
-    }));
+    /**
+     * props.children 경고문 출력
+     * @param child props.children
+     */
+    const warnDisableProps = (child: any): void => {
+      if (child.props.showColumnFields || child.props.showFilterFields || child.props.showDataFields) {
+        console.warn('FieldPanel의 showColumnFields, showFilterFields, showDataFields 기능은 사용하실 수 없습니다');
+      }
+    };
+
+    /**
+     * props.children 중 FieldPanel 일부 기능 불능화
+     * @param child props.children
+     * @returns
+     */
+    const modifyChildren = (child: any, index: number): JSX.Element => {
+      if (child.type.name === 'FieldPanel') {
+        warnDisableProps(child);
+        return (
+          <FieldPanel
+            key={'FieldPanel' + index}
+            visible={child.props.visible ?? false}
+            allowFieldDragging={child.props.allowFieldDragging ?? false}
+            showColumnFields={false}
+            showFilterFields={false}
+            showDataFields={false}
+            showRowFields={child.props.showRowFields ?? false}
+          />
+        );
+      }
+      return child;
+    };
 
     /**
      * 그리드 사이즈 재조정
@@ -392,13 +419,6 @@ const DxPlanitTreeGrid = forwardRef(
     };
 
     /**
-     * 그리드 펼침 정보 세션스토리지 리셋
-     */
-    const resetSession = (): void => {
-      sessionStorage.removeItem(stateStoringKey);
-    };
-
-    /**
      * 엑셀 export 명령
      * @param fileName 저장하고자 하는 엑셀파일명
      */
@@ -453,6 +473,49 @@ const DxPlanitTreeGrid = forwardRef(
         });
       });
       e.cancel = true;
+    };
+
+    /**
+     * props.children 요소 중 일부 요소 default 설정 변경
+     * @param child ReactNode
+     * @returns ReatNode
+     */
+    const convertChildren = (child: any): any => {
+      if (Array.isArray(child)) {
+        return child.map((item: any, index: number) => {
+          return modifyChildren(item, index);
+        });
+      } else {
+        return modifyChildren(child, 0);
+      }
+    };
+
+    /**
+     * StateStoring 의 storageKey값 가져오기
+     * @param child props.children
+     * @returns storageKey값
+     */
+    const getStateStorageKey = (child: any): string | null => {
+      if (Array.isArray(child)) {
+        const stateStoring = child.filter((node: any) => node.type.name === 'StateStoring');
+        if (stateStoring?.length) {
+          return stateStoring[0].props.storageKey;
+        }
+        return null;
+      } else if (child.type.name === 'StateStoring') {
+        return child.props.storageKey;
+      }
+      return null;
+    };
+
+    /**
+     * 그리드 펼침 정보 세션스토리지 리셋
+     */
+    const resetSession = (): void => {
+      const stateStoringKey = getStateStorageKey(children);
+      if (stateStoringKey) {
+        sessionStorage.removeItem(stateStoringKey);
+      }
     };
 
     /**
@@ -520,6 +583,10 @@ const DxPlanitTreeGrid = forwardRef(
       return onOptionChanged ? onOptionChanged(e) : undefined;
     };
 
+    useImperativeHandle(ref, () => ({
+      exportToExcel,
+    }));
+
     useEffect(() => {
       if (Object.keys(dataSource).length) {
         resetSession();
@@ -532,7 +599,6 @@ const DxPlanitTreeGrid = forwardRef(
       <>
         {Object.keys(gridDataSource).length && (
           <div>
-            <LoadPanel position={{ of: id }} />
             <PivotGrid
               id={id}
               ref={$tableRef}
@@ -569,7 +635,7 @@ const DxPlanitTreeGrid = forwardRef(
               onInitialized={onInitializedChild}
               onOptionChanged={onOptionChangedChild}
             >
-              <StateStoring enabled={stateStoringKey?.length} type="sessionStorage" storageKey={stateStoringKey} />
+              {convertChildren(children)}
               <FieldChooser enabled={false} />
             </PivotGrid>
           </div>
