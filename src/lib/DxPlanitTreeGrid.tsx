@@ -1,14 +1,12 @@
-import { forwardRef, ReactNode, useEffect, useImperativeHandle, useRef, useState } from 'react';
+import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
 
-import PivotGrid, { HeaderFilter, FieldChooser, FieldPanel } from 'devextreme-react/pivot-grid';
-import { Format, StateStoring } from 'devextreme-react/data-grid';
+import PivotGrid, { FieldChooser, FieldPanel } from 'devextreme-react/pivot-grid';
 import DevExpress from 'devextreme';
 import { exportPivotGrid } from 'devextreme/excel_exporter';
 import { Workbook } from 'exceljs';
 import saveAs from 'file-saver';
 import PivotGridDataSource from 'devextreme/ui/pivot_grid/data_source';
 import { TypeDxPlanit } from './index.d';
-import React from 'react';
 
 /**
  * devextreme pivotgrid Configrations 중 사용 불가 항목 : id, width, height, showColumnGrandTotals, showColumnTotals, showRowGrandTotals, FieldChooser. fieldPanel,
@@ -433,7 +431,7 @@ const DxPlanitTreeGrid = forwardRef(
      */
     const convertDataControllerColumnsInfo = (component: any): any => {
       let arr: TypeDxPlanit.ColumnField[][] = [];
-      const columnInfo = component._dataController._columnsInfo.forEach((column: TypeDxPlanit.ColumnField[]) => {
+      component._dataController._columnsInfo.forEach((column: TypeDxPlanit.ColumnField[]) => {
         let newColumn = column.slice();
         if (groupField && newColumn.length === 1 && newColumn[0].type === 'GT' && newColumn[0].text === 'Grand Total') {
           arr.push(...makeDataControllerColumnGroup(groupField));
