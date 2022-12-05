@@ -539,7 +539,8 @@ const DxPlanitTreeGrid = forwardRef(
     const onContentReadyChild = (
       e: DevExpress.ui.dxPivotGrid.ContentReadyEvent
     ): ((e: DevExpress.ui.dxPivotGrid.ContentReadyEvent) => void) | void => {
-      setTimeout(() => insertRowHeaderGroup(), 0);
+      insertRowHeaderGroup();
+      // setTimeout(() => insertRowHeaderGroup(), 0);
       getGridSize();
 
       return onContentReady ? onContentReady(e) : undefined;

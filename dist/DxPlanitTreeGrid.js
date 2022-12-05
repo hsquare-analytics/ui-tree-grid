@@ -19,9 +19,7 @@ Object.defineProperty(exports, '__esModule', {
 });
 exports.default = void 0;
 var _react = require('react');
-var _loadPanel = require('devextreme-react/load-panel');
 var _pivotGrid = _interopRequireWildcard(require('devextreme-react/pivot-grid'));
-var _dataGrid = require('devextreme-react/data-grid');
 var _excel_exporter = require('devextreme/excel_exporter');
 var _exceljs = require('exceljs');
 var _fileSaver = _interopRequireDefault(require('file-saver'));
@@ -133,7 +131,7 @@ function _arrayWithHoles(arr) {
   if (Array.isArray(arr)) return arr;
 }
 /**
- * devextreme pivotgrid Configrations 중 사용 불가 항목 : id, width, height, showColumnGrandTotals, showColumnTotals, showRowGrandTotals, FieldChooser
+ * devextreme pivotgrid Configrations 중 사용 불가 항목 : id, width, height, showColumnGrandTotals, showColumnTotals, showRowGrandTotals, FieldChooser. fieldPanel,
  * devextreme pivotgrid Configrations 중 사용 방법 변경 항목 : stateStoring, Export
  * onExported, onFileSaving 이벤트 사용하지 않음.
  */
@@ -145,7 +143,8 @@ function _arrayWithHoles(arr) {
 
 var grandTotalCssNm = 'data-grand-total';
 var DxPlanitTreeGrid = /*#__PURE__*/ (0, _react.forwardRef)(function (props, ref) {
-  var _props$id = props.id,
+  var children = props.children,
+    _props$id = props.id,
     id = _props$id === void 0 ? 'dx-planit-vera-pivotgrid-id' : _props$id,
     groupField = props.groupField,
     dataColor = props.dataColor,
@@ -153,8 +152,6 @@ var DxPlanitTreeGrid = /*#__PURE__*/ (0, _react.forwardRef)(function (props, ref
     convertNullToHipen = _props$convertNullToH === void 0 ? true : _props$convertNullToH,
     _props$convertZeroToH = props.convertZeroToHipen,
     convertZeroToHipen = _props$convertZeroToH === void 0 ? true : _props$convertZeroToH,
-    _props$stateStoringKe = props.stateStoringKey,
-    stateStoringKey = _props$stateStoringKe === void 0 ? '' : _props$stateStoringKe,
     _props$allowExpandAll = props.allowExpandAll,
     allowExpandAll = _props$allowExpandAll === void 0 ? false : _props$allowExpandAll,
     _props$allowFiltering = props.allowFiltering,
@@ -189,8 +186,6 @@ var DxPlanitTreeGrid = /*#__PURE__*/ (0, _react.forwardRef)(function (props, ref
     visible = _props$visible === void 0 ? true : _props$visible,
     _props$wordWrapEnable = props.wordWrapEnabled,
     wordWrapEnabled = _props$wordWrapEnable === void 0 ? false : _props$wordWrapEnable,
-    _props$customExcelBut = props.customExcelButton,
-    customExcelButton = _props$customExcelBut === void 0 ? false : _props$customExcelBut,
     onCellClick = props.onCellClick,
     onCellPrepared = props.onCellPrepared,
     onContentReady = props.onContentReady,
@@ -222,11 +217,42 @@ var DxPlanitTreeGrid = /*#__PURE__*/ (0, _react.forwardRef)(function (props, ref
       argb: 'FF7E7E7E',
     },
   };
-  (0, _react.useImperativeHandle)(ref, function () {
-    return {
-      exportToExcel: exportToExcel,
-    };
-  });
+
+  /**
+   * props.children 경고문 출력
+   * @param child props.children
+   */
+  var warnDisableProps = function warnDisableProps(child) {
+    if (child.props.showColumnFields || child.props.showFilterFields || child.props.showDataFields) {
+      console.warn('FieldPanel의 showColumnFields, showFilterFields, showDataFields 기능은 사용하실 수 없습니다');
+    }
+  };
+
+  /**
+   * props.children 중 FieldPanel 일부 기능 불능화
+   * @param child props.children
+   * @returns
+   */
+  var modifyChildren = function modifyChildren(child, index) {
+    if (child.type.name === 'FieldPanel') {
+      var _child$props$visible, _child$props$allowFie, _child$props$showRowF;
+      warnDisableProps(child);
+      return /*#__PURE__*/ _react.createElement(_pivotGrid.FieldPanel, {
+        key: 'FieldPanel' + index,
+        visible: (_child$props$visible = child.props.visible) !== null && _child$props$visible !== void 0 ? _child$props$visible : false,
+        allowFieldDragging:
+          (_child$props$allowFie = child.props.allowFieldDragging) !== null && _child$props$allowFie !== void 0
+            ? _child$props$allowFie
+            : true,
+        showColumnFields: false,
+        showFilterFields: false,
+        showDataFields: false,
+        showRowFields:
+          (_child$props$showRowF = child.props.showRowFields) !== null && _child$props$showRowF !== void 0 ? _child$props$showRowF : true,
+      });
+    }
+    return child;
+  };
 
   /**
    * 그리드 사이즈 재조정
@@ -586,13 +612,6 @@ var DxPlanitTreeGrid = /*#__PURE__*/ (0, _react.forwardRef)(function (props, ref
   };
 
   /**
-   * 그리드 펼침 정보 세션스토리지 리셋
-   */
-  var resetSession = function resetSession() {
-    sessionStorage.removeItem(stateStoringKey);
-  };
-
-  /**
    * 엑셀 export 명령
    * @param fileName 저장하고자 하는 엑셀파일명
    */
@@ -613,7 +632,7 @@ var DxPlanitTreeGrid = /*#__PURE__*/ (0, _react.forwardRef)(function (props, ref
    */
   var convertDataControllerColumnsInfo = function convertDataControllerColumnsInfo(component) {
     var arr = [];
-    var columnInfo = component._dataController._columnsInfo.forEach(function (column) {
+    component._dataController._columnsInfo.forEach(function (column) {
       var newColumn = column.slice();
       if (groupField && newColumn.length === 1 && newColumn[0].type === 'GT' && newColumn[0].text === 'Grand Total') {
         arr.push.apply(arr, _toConsumableArray(makeDataControllerColumnGroup(groupField)));
@@ -660,6 +679,51 @@ var DxPlanitTreeGrid = /*#__PURE__*/ (0, _react.forwardRef)(function (props, ref
   };
 
   /**
+   * props.children 요소 중 일부 요소 default 설정 변경
+   * @param child ReactNode
+   * @returns ReatNode
+   */
+  var convertChildren = function convertChildren(child) {
+    if (Array.isArray(child)) {
+      return child.map(function (item, index) {
+        return modifyChildren(item, index);
+      });
+    } else {
+      return modifyChildren(child, 0);
+    }
+  };
+
+  /**
+   * StateStoring 의 storageKey값 가져오기
+   * @param child props.children
+   * @returns storageKey값
+   */
+  var getStateStorageKey = function getStateStorageKey(child) {
+    if (Array.isArray(child)) {
+      var stateStoring = child.filter(function (node) {
+        return node.type.name === 'StateStoring';
+      });
+      if (stateStoring !== null && stateStoring !== void 0 && stateStoring.length) {
+        return stateStoring[0].props.storageKey;
+      }
+      return null;
+    } else if (child.type.name === 'StateStoring') {
+      return child.props.storageKey;
+    }
+    return null;
+  };
+
+  /**
+   * 그리드 펼침 정보 세션스토리지 리셋
+   */
+  var resetSession = function resetSession() {
+    var stateStoringKey = getStateStorageKey(children);
+    if (stateStoringKey) {
+      sessionStorage.removeItem(stateStoringKey);
+    }
+  };
+
+  /**
    * devextreme CellPreparedEvent 이벤트 실행
    * @param e
    */
@@ -701,6 +765,11 @@ var DxPlanitTreeGrid = /*#__PURE__*/ (0, _react.forwardRef)(function (props, ref
   var onOptionChangedChild = function onOptionChangedChild(e) {
     return onOptionChanged ? onOptionChanged(e) : undefined;
   };
+  (0, _react.useImperativeHandle)(ref, function () {
+    return {
+      exportToExcel: exportToExcel,
+    };
+  });
   (0, _react.useEffect)(
     function () {
       if (Object.keys(dataSource).length) {
@@ -718,11 +787,6 @@ var DxPlanitTreeGrid = /*#__PURE__*/ (0, _react.forwardRef)(function (props, ref
       /*#__PURE__*/ _react.createElement(
         'div',
         null,
-        /*#__PURE__*/ _react.createElement(_loadPanel.LoadPanel, {
-          position: {
-            of: id,
-          },
-        }),
         /*#__PURE__*/ _react.createElement(
           _pivotGrid.default,
           {
@@ -761,11 +825,7 @@ var DxPlanitTreeGrid = /*#__PURE__*/ (0, _react.forwardRef)(function (props, ref
             onInitialized: onInitializedChild,
             onOptionChanged: onOptionChangedChild,
           },
-          /*#__PURE__*/ _react.createElement(_dataGrid.StateStoring, {
-            enabled: stateStoringKey === null || stateStoringKey === void 0 ? void 0 : stateStoringKey.length,
-            type: 'sessionStorage',
-            storageKey: stateStoringKey,
-          }),
+          convertChildren(children),
           /*#__PURE__*/ _react.createElement(_pivotGrid.FieldChooser, {
             enabled: false,
           })
