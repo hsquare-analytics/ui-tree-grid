@@ -741,9 +741,8 @@ var DxPlanitTreeGrid = /*#__PURE__*/ (0, _react.forwardRef)(function (props, ref
    * devextreme Raise Event
    */
   var onContentReadyChild = function onContentReadyChild(e) {
-    setTimeout(function () {
-      return insertRowHeaderGroup();
-    }, 0);
+    insertRowHeaderGroup();
+    // setTimeout(() => insertRowHeaderGroup(), 0);
     getGridSize();
     return onContentReady ? onContentReady(e) : undefined;
   };

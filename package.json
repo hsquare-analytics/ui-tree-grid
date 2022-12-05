@@ -42,7 +42,7 @@
   ],
   "dependencies": {
     "devextreme": "^22.1.6",
-    "devextreme-planit-treegrid-react": "^1.2.9",
+    "devextreme-planit-treegrid-react": "^1.3.0",
     "devextreme-react": "^22.1.6",
     "exceljs": "^4.3.0",
     "file-saver": "^2.0.5",
