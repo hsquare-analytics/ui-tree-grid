@@ -83,7 +83,7 @@ const DxPlanitTreeGrid = forwardRef(
      * @returns
      */
     const modifyChildren = (child: any, index: number): JSX.Element => {
-      if (child.type.name === 'FieldPanel') {
+      if (child.type.OptionName.toLowerCase() === 'fieldpanel') {
         warnDisableProps(child);
         return (
           <FieldPanel
@@ -495,12 +495,12 @@ const DxPlanitTreeGrid = forwardRef(
      */
     const getStateStorageKey = (child: any): string | null => {
       if (Array.isArray(child)) {
-        const stateStoring = child.filter((node: any) => node.type.name === 'StateStoring');
+        const stateStoring = child.filter((node: any) => node.type.OptionName.toLowerCase() === 'statestoring');
         if (stateStoring?.length) {
           return stateStoring[0].props.storageKey;
         }
         return null;
-      } else if (child.type.name === 'StateStoring') {
+      } else if (child.type.OptionName.toLowerCase() === 'statestoring') {
         return child.props.storageKey;
       }
       return null;

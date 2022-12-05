@@ -234,7 +234,7 @@ var DxPlanitTreeGrid = /*#__PURE__*/ (0, _react.forwardRef)(function (props, ref
    * @returns
    */
   var modifyChildren = function modifyChildren(child, index) {
-    if (child.type.name === 'FieldPanel') {
+    if (child.type.OptionName.toLowerCase() === 'fieldpanel') {
       var _child$props$visible, _child$props$allowFie, _child$props$showRowF;
       warnDisableProps(child);
       return /*#__PURE__*/ _react.createElement(_pivotGrid.FieldPanel, {
@@ -701,13 +701,13 @@ var DxPlanitTreeGrid = /*#__PURE__*/ (0, _react.forwardRef)(function (props, ref
   var getStateStorageKey = function getStateStorageKey(child) {
     if (Array.isArray(child)) {
       var stateStoring = child.filter(function (node) {
-        return node.type.name === 'StateStoring';
+        return node.type.OptionName.toLowerCase() === 'statestoring';
       });
       if (stateStoring !== null && stateStoring !== void 0 && stateStoring.length) {
         return stateStoring[0].props.storageKey;
       }
       return null;
-    } else if (child.type.name === 'StateStoring') {
+    } else if (child.type.OptionName.toLowerCase() === 'statestoring') {
       return child.props.storageKey;
     }
     return null;

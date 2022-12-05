@@ -3,6 +3,10 @@
 DevExtreme Planit Tree Grid는 Devextreme의 PivotGrid에 Colspan과 컬러 지정 기능 등의 몇 가지 추가 기능을 설정한 React Wrapper입니다.
 코드는 React와 typescript로 작성되었으며, DevExtreme 22.1 버전에서 테스트 되었습니다.
 
+## Demo
+
+[DEMO](https://bcahn.github.io/dxTreeGrid/)
+
 ## Dependecies
 
 엑셀 다운로드 기능을 위해 아래의 두 의존성을 반드시 설치해야 합니다.
