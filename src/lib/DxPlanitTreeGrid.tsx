@@ -6,6 +6,7 @@ import { exportPivotGrid } from 'devextreme/excel_exporter';
 import { Workbook } from 'exceljs';
 import saveAs from 'file-saver';
 import PivotGridDataSource from 'devextreme/ui/pivot_grid/data_source';
+import { locale, loadMessages } from 'devextreme/localization';
 import { TypeDxPlanit } from './index.d';
 
 /**
@@ -49,6 +50,7 @@ const DxPlanitTreeGrid = forwardRef(
       tabIndex = 0,
       visible = true,
       wordWrapEnabled = false,
+      language = 'en',
       onCellClick,
       onCellPrepared,
       onContentReady,
@@ -66,6 +68,24 @@ const DxPlanitTreeGrid = forwardRef(
 
     const $tableRef = useRef<PivotGrid>(null);
     const excelBorder = { style: 'thin', color: { argb: 'FF7E7E7E' } };
+
+    const transferLanguage = (lang: string) => {
+      locale(lang);
+      if (lang === 'ko' || lang === 'ko-KR') {
+        loadMessages({
+          ko: {
+            'dxPivotGrid-sortColumnBySummary': '"{0}" 을(를) 선택한 열 기준으로 정렬',
+            'dxPivotGrid-removeAllSorting': '정렬기능 모두 제거',
+            'dxPivotGrid-expandAll': '모두 펼치기',
+            'dxPivotGrid-collapseAll': '모두 접기',
+            'dxDataGrid-headerFilterOK': '확인',
+            'dxDataGrid-headerFilterCancel': '취소',
+            'dxList-selectAll': '모두 선택',
+            'Search': '검색',
+          },
+        });
+      }
+    };
 
     /**
      * props.children 경고문 출력
@@ -122,7 +142,7 @@ const DxPlanitTreeGrid = forwardRef(
      * @param e devextreme CellPreparedEvent
      */
     const changeTotalText = (e: DevExpress.ui.dxPivotGrid.CellPreparedEvent): void => {
-      if (!e.cellElement) {
+      if (!e.cellElement || !(language === 'ko' || language === 'ko-KR')) {
         return;
       }
       if (e.cell?.type === 'T') {
@@ -593,6 +613,10 @@ const DxPlanitTreeGrid = forwardRef(
         checkDataSource(dataSource);
       }
     }, [dataSource]);
+
+    useEffect(() => {
+      transferLanguage(language);
+    }, [language]);
 
     return (
       <>

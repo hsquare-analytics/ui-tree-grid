@@ -117,6 +117,7 @@ const TestGrid = (): JSX.Element => {
           allowSortingBySummary={true}
           allowFiltering={true}
           allowSorting={true}
+          language={'ko'}
         >
           <HeaderFilter allowSearch={true} showRelevantValues={true} />
           <FieldPanel visible={true} />

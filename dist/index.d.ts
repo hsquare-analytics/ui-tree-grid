@@ -37,5 +37,6 @@ export declare module TypeDxPlanit {
     customExcelButton?: boolean;
     HeaderFilter?: HeaderFilter;
     children?: React.ReactNode;
+    language?: string;
   }
 }

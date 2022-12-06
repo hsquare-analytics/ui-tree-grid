@@ -50,6 +50,7 @@ import DxPlanitTreeGrid from 'devextreme-planit-treegrid-react'
     allowSortingBySummary={true}
     allowFiltering={true}
     allowSorting={true}
+    language={'ko'} // 'ko' | 'en'
     ...
   >
     <HeaderFilter allowSearch={true} showRelevantValues={true} />
@@ -67,6 +68,13 @@ DevExtreme PivotGrid에 몇몇 기능이 추가되었습니다. 추가된 기능
 
 ### 1. dataColor
 
+> type: {
+> format: [Format](https://js.devexpress.com/Documentation/ApiReference/Common/Object_Structures/Format/);
+> color: string;
+> condition: string;
+> } <br />
+> default value: null
+
 특정 조건 데이터의 컬러를 직접 지정하실 수 있습니다.
 
 1. format: [DevExtreme PivotGrid Data Format](https://js.devexpress.com/Documentation/ApiReference/Common/Object_Structures/Format/) 타입을 사용하실 수 있습니다.
@@ -77,13 +85,35 @@ DevExtreme PivotGrid에 몇몇 기능이 추가되었습니다. 추가된 기능
 
 value가 null 인 데이터를 하이픈('-')으로 보여줍니다.
 
+> type: boolean <br />
+> default value: true
+
 ### 3. convertZeroToHipen
 
 value가 0 | '0' | '0%' 인 데이터를 하이픈('-')으로 보여줍니다.
 
+> type: boolean<br />
+> default value: true
+
 ### 4. groupField
 
 groupField는 그리드 상단에 colspan 된 새로운 column을 생성합니다. 자세한 사용법은 github의 demo 폴더를 확인하십시오.
+
+> type: {
+> groupCaption: string;
+> groupName?: string;
+> html?: string;
+> depth: number;
+> colspan: number;
+> }[]<br />
+> default value: null
+
+### 5. language
+
+> type: 'ko' | 'en' <br />
+> default value: 'en'
+
+한국어 설정을 할 수 있습니다.
 
 ```
 import { TypeDxPlanit } from 'devextreme-planit-treegrid-react';

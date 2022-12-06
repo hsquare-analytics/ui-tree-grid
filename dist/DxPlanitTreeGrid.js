@@ -1,135 +1,29 @@
-'use strict';
+"use strict";
 
-function _typeof(obj) {
-  '@babel/helpers - typeof';
-  return (
-    (_typeof =
-      'function' == typeof Symbol && 'symbol' == typeof Symbol.iterator
-        ? function (obj) {
-            return typeof obj;
-          }
-        : function (obj) {
-            return obj && 'function' == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? 'symbol' : typeof obj;
-          }),
-    _typeof(obj)
-  );
-}
-Object.defineProperty(exports, '__esModule', {
-  value: true,
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+Object.defineProperty(exports, "__esModule", {
+  value: true
 });
 exports.default = void 0;
-var _react = require('react');
-var _pivotGrid = _interopRequireWildcard(require('devextreme-react/pivot-grid'));
-var _excel_exporter = require('devextreme/excel_exporter');
-var _exceljs = require('exceljs');
-var _fileSaver = _interopRequireDefault(require('file-saver'));
-function _interopRequireDefault(obj) {
-  return obj && obj.__esModule ? obj : { default: obj };
-}
-function _getRequireWildcardCache(nodeInterop) {
-  if (typeof WeakMap !== 'function') return null;
-  var cacheBabelInterop = new WeakMap();
-  var cacheNodeInterop = new WeakMap();
-  return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) {
-    return nodeInterop ? cacheNodeInterop : cacheBabelInterop;
-  })(nodeInterop);
-}
-function _interopRequireWildcard(obj, nodeInterop) {
-  if (!nodeInterop && obj && obj.__esModule) {
-    return obj;
-  }
-  if (obj === null || (_typeof(obj) !== 'object' && typeof obj !== 'function')) {
-    return { default: obj };
-  }
-  var cache = _getRequireWildcardCache(nodeInterop);
-  if (cache && cache.has(obj)) {
-    return cache.get(obj);
-  }
-  var newObj = {};
-  var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor;
-  for (var key in obj) {
-    if (key !== 'default' && Object.prototype.hasOwnProperty.call(obj, key)) {
-      var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null;
-      if (desc && (desc.get || desc.set)) {
-        Object.defineProperty(newObj, key, desc);
-      } else {
-        newObj[key] = obj[key];
-      }
-    }
-  }
-  newObj.default = obj;
-  if (cache) {
-    cache.set(obj, newObj);
-  }
-  return newObj;
-}
-function _toConsumableArray(arr) {
-  return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();
-}
-function _nonIterableSpread() {
-  throw new TypeError(
-    'Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.'
-  );
-}
-function _iterableToArray(iter) {
-  if ((typeof Symbol !== 'undefined' && iter[Symbol.iterator] != null) || iter['@@iterator'] != null) return Array.from(iter);
-}
-function _arrayWithoutHoles(arr) {
-  if (Array.isArray(arr)) return _arrayLikeToArray(arr);
-}
-function _slicedToArray(arr, i) {
-  return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();
-}
-function _nonIterableRest() {
-  throw new TypeError(
-    'Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.'
-  );
-}
-function _unsupportedIterableToArray(o, minLen) {
-  if (!o) return;
-  if (typeof o === 'string') return _arrayLikeToArray(o, minLen);
-  var n = Object.prototype.toString.call(o).slice(8, -1);
-  if (n === 'Object' && o.constructor) n = o.constructor.name;
-  if (n === 'Map' || n === 'Set') return Array.from(o);
-  if (n === 'Arguments' || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
-}
-function _arrayLikeToArray(arr, len) {
-  if (len == null || len > arr.length) len = arr.length;
-  for (var i = 0, arr2 = new Array(len); i < len; i++) {
-    arr2[i] = arr[i];
-  }
-  return arr2;
-}
-function _iterableToArrayLimit(arr, i) {
-  var _i = null == arr ? null : ('undefined' != typeof Symbol && arr[Symbol.iterator]) || arr['@@iterator'];
-  if (null != _i) {
-    var _s,
-      _e,
-      _x,
-      _r,
-      _arr = [],
-      _n = !0,
-      _d = !1;
-    try {
-      if (((_x = (_i = _i.call(arr)).next), 0 === i)) {
-        if (Object(_i) !== _i) return;
-        _n = !1;
-      } else for (; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0) {}
-    } catch (err) {
-      (_d = !0), (_e = err);
-    } finally {
-      try {
-        if (!_n && null != _i.return && ((_r = _i.return()), Object(_r) !== _r)) return;
-      } finally {
-        if (_d) throw _e;
-      }
-    }
-    return _arr;
-  }
-}
-function _arrayWithHoles(arr) {
-  if (Array.isArray(arr)) return arr;
-}
+var _react = require("react");
+var _pivotGrid = _interopRequireWildcard(require("devextreme-react/pivot-grid"));
+var _excel_exporter = require("devextreme/excel_exporter");
+var _exceljs = require("exceljs");
+var _fileSaver = _interopRequireDefault(require("file-saver"));
+var _localization = require("devextreme/localization");
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
+function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+function _iterableToArrayLimit(arr, i) { var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"]; if (null != _i) { var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1; try { if (_x = (_i = _i.call(arr)).next, 0 === i) { if (Object(_i) !== _i) return; _n = !1; } else for (; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0) { ; } } catch (err) { _d = !0, _e = err; } finally { try { if (!_n && null != _i.return && (_r = _i.return(), Object(_r) !== _r)) return; } finally { if (_d) throw _e; } } return _arr; } }
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 /**
  * devextreme pivotgrid Configrations 중 사용 불가 항목 : id, width, height, showColumnGrandTotals, showColumnTotals, showRowGrandTotals, FieldChooser. fieldPanel,
  * devextreme pivotgrid Configrations 중 사용 방법 변경 항목 : stateStoring, Export
@@ -142,7 +36,7 @@ function _arrayWithHoles(arr) {
  */
 
 var grandTotalCssNm = 'data-grand-total';
-var DxPlanitTreeGrid = /*#__PURE__*/ (0, _react.forwardRef)(function (props, ref) {
+var DxPlanitTreeGrid = /*#__PURE__*/(0, _react.forwardRef)(function (props, ref) {
   var children = props.children,
     _props$id = props.id,
     id = _props$id === void 0 ? 'dx-planit-vera-pivotgrid-id' : _props$id,
@@ -186,6 +80,8 @@ var DxPlanitTreeGrid = /*#__PURE__*/ (0, _react.forwardRef)(function (props, ref
     visible = _props$visible === void 0 ? true : _props$visible,
     _props$wordWrapEnable = props.wordWrapEnabled,
     wordWrapEnabled = _props$wordWrapEnable === void 0 ? false : _props$wordWrapEnable,
+    _props$language = props.language,
+    language = _props$language === void 0 ? 'en' : _props$language,
     onCellClick = props.onCellClick,
     onCellPrepared = props.onCellPrepared,
     onContentReady = props.onContentReady,
@@ -214,8 +110,25 @@ var DxPlanitTreeGrid = /*#__PURE__*/ (0, _react.forwardRef)(function (props, ref
   var excelBorder = {
     style: 'thin',
     color: {
-      argb: 'FF7E7E7E',
-    },
+      argb: 'FF7E7E7E'
+    }
+  };
+  var transferLanguage = function transferLanguage(lang) {
+    (0, _localization.locale)(lang);
+    if (lang === 'ko' || lang === 'ko-KR') {
+      (0, _localization.loadMessages)({
+        ko: {
+          'dxPivotGrid-sortColumnBySummary': '"{0}" 을(를) 선택한 열 기준으로 정렬',
+          'dxPivotGrid-removeAllSorting': '정렬기능 모두 제거',
+          'dxPivotGrid-expandAll': '모두 펼치기',
+          'dxPivotGrid-collapseAll': '모두 접기',
+          'dxDataGrid-headerFilterOK': '확인',
+          'dxDataGrid-headerFilterCancel': '취소',
+          'dxList-selectAll': '모두 선택',
+          'Search': '검색'
+        }
+      });
+    }
   };
 
   /**
@@ -237,18 +150,14 @@ var DxPlanitTreeGrid = /*#__PURE__*/ (0, _react.forwardRef)(function (props, ref
     if (child.type.OptionName.toLowerCase() === 'fieldpanel') {
       var _child$props$visible, _child$props$allowFie, _child$props$showRowF;
       warnDisableProps(child);
-      return /*#__PURE__*/ _react.createElement(_pivotGrid.FieldPanel, {
+      return /*#__PURE__*/_react.createElement(_pivotGrid.FieldPanel, {
         key: 'FieldPanel' + index,
         visible: (_child$props$visible = child.props.visible) !== null && _child$props$visible !== void 0 ? _child$props$visible : false,
-        allowFieldDragging:
-          (_child$props$allowFie = child.props.allowFieldDragging) !== null && _child$props$allowFie !== void 0
-            ? _child$props$allowFie
-            : true,
+        allowFieldDragging: (_child$props$allowFie = child.props.allowFieldDragging) !== null && _child$props$allowFie !== void 0 ? _child$props$allowFie : true,
         showColumnFields: false,
         showFilterFields: false,
         showDataFields: false,
-        showRowFields:
-          (_child$props$showRowF = child.props.showRowFields) !== null && _child$props$showRowF !== void 0 ? _child$props$showRowF : true,
+        showRowFields: (_child$props$showRowF = child.props.showRowFields) !== null && _child$props$showRowF !== void 0 ? _child$props$showRowF : true
       });
     }
     return child;
@@ -262,26 +171,16 @@ var DxPlanitTreeGrid = /*#__PURE__*/ (0, _react.forwardRef)(function (props, ref
     var _wrapper$clientWidth;
     var wrapper = document.querySelector('.diag-table-wrapper');
     var gap = 10;
-    setWidth(
-      (_wrapper$clientWidth = wrapper === null || wrapper === void 0 ? void 0 : wrapper.clientWidth) !== null &&
-        _wrapper$clientWidth !== void 0
-        ? _wrapper$clientWidth
-        : 0
-    );
+    setWidth((_wrapper$clientWidth = wrapper === null || wrapper === void 0 ? void 0 : wrapper.clientWidth) !== null && _wrapper$clientWidth !== void 0 ? _wrapper$clientWidth : 0);
     setHeight(wrapper ? wrapper.clientHeight - gap : 0);
     window.addEventListener('resize', function () {
       var _wrapper$clientWidth2;
-      setWidth(
-        (_wrapper$clientWidth2 = wrapper === null || wrapper === void 0 ? void 0 : wrapper.clientWidth) !== null &&
-          _wrapper$clientWidth2 !== void 0
-          ? _wrapper$clientWidth2
-          : 0
-      );
+      setWidth((_wrapper$clientWidth2 = wrapper === null || wrapper === void 0 ? void 0 : wrapper.clientWidth) !== null && _wrapper$clientWidth2 !== void 0 ? _wrapper$clientWidth2 : 0);
       setHeight(wrapper ? wrapper.clientHeight - gap : 0);
     });
     return {
       width: width,
-      height: height,
+      height: height
     };
   };
 
@@ -291,13 +190,13 @@ var DxPlanitTreeGrid = /*#__PURE__*/ (0, _react.forwardRef)(function (props, ref
    */
   var changeTotalText = function changeTotalText(e) {
     var _e$cell;
-    if (!e.cellElement) {
+    if (!e.cellElement || !(language === 'ko' || language === 'ko-KR')) {
       return;
     }
     if (((_e$cell = e.cell) === null || _e$cell === void 0 ? void 0 : _e$cell.type) === 'T') {
       var _e$cell$text;
       var text = (_e$cell$text = e.cell.text) === null || _e$cell$text === void 0 ? void 0 : _e$cell$text.replace('Total', '합계');
-      e.cellElement.innerHTML = '<span>'.concat(text, '</span>');
+      e.cellElement.innerHTML = "<span>".concat(text, "</span>");
     }
   };
 
@@ -324,13 +223,7 @@ var DxPlanitTreeGrid = /*#__PURE__*/ (0, _react.forwardRef)(function (props, ref
     if (!convertZeroToHipen) {
       return;
     }
-    if (
-      e.area === 'data' &&
-      (((_e$cell3 = e.cell) === null || _e$cell3 === void 0 ? void 0 : _e$cell3.text) === '0' ||
-        ((_e$cell4 = e.cell) === null || _e$cell4 === void 0 ? void 0 : _e$cell4.text) === '0.0%' ||
-        ((_e$cell5 = e.cell) === null || _e$cell5 === void 0 ? void 0 : _e$cell5.text) === '') &&
-      e.cellElement
-    ) {
+    if (e.area === 'data' && (((_e$cell3 = e.cell) === null || _e$cell3 === void 0 ? void 0 : _e$cell3.text) === '0' || ((_e$cell4 = e.cell) === null || _e$cell4 === void 0 ? void 0 : _e$cell4.text) === '0.0%' || ((_e$cell5 = e.cell) === null || _e$cell5 === void 0 ? void 0 : _e$cell5.text) === '') && e.cellElement) {
       e.cellElement.innerHTML = '<span class="text-color">-</span>';
     }
   };
@@ -353,7 +246,7 @@ var DxPlanitTreeGrid = /*#__PURE__*/ (0, _react.forwardRef)(function (props, ref
     } else if (!isLast && index === 0) {
       td.setAttribute('style', 'border-bottom: 0');
     }
-    td.innerHTML = '<span>'.concat(text, '</span>');
+    td.innerHTML = "<span>".concat(text, "</span>");
     return td;
   };
 
@@ -364,15 +257,13 @@ var DxPlanitTreeGrid = /*#__PURE__*/ (0, _react.forwardRef)(function (props, ref
    */
   var makeCheckGroupData = function makeCheckGroupData(groupField) {
     var data = {};
-    groupField === null || groupField === void 0
-      ? void 0
-      : groupField.forEach(function (group) {
-          if (data[group.depth]) {
-            data[group.depth] += group.colspan;
-          } else {
-            data[group.depth] = group.colspan;
-          }
-        });
+    groupField === null || groupField === void 0 ? void 0 : groupField.forEach(function (group) {
+      if (data[group.depth]) {
+        data[group.depth] += group.colspan;
+      } else {
+        data[group.depth] = group.colspan;
+      }
+    });
     return data;
   };
 
@@ -398,11 +289,7 @@ var DxPlanitTreeGrid = /*#__PURE__*/ (0, _react.forwardRef)(function (props, ref
    */
   var setTotalElementInfo = function setTotalElementInfo(e) {
     var _e$cell6, _e$cell7, _e$cellElement;
-    if (
-      !(groupField !== null && groupField !== void 0 && groupField.length) ||
-      ((_e$cell6 = e.cell) === null || _e$cell6 === void 0 ? void 0 : _e$cell6.type) !== 'GT' ||
-      ((_e$cell7 = e.cell) === null || _e$cell7 === void 0 ? void 0 : _e$cell7.text) !== 'Grand Total'
-    ) {
+    if (!(groupField !== null && groupField !== void 0 && groupField.length) || ((_e$cell6 = e.cell) === null || _e$cell6 === void 0 ? void 0 : _e$cell6.type) !== 'GT' || ((_e$cell7 = e.cell) === null || _e$cell7 === void 0 ? void 0 : _e$cell7.text) !== 'Grand Total') {
       return;
     }
     (_e$cellElement = e.cellElement) === null || _e$cellElement === void 0 ? void 0 : _e$cellElement.classList.add(grandTotalCssNm);
@@ -429,11 +316,9 @@ var DxPlanitTreeGrid = /*#__PURE__*/ (0, _react.forwardRef)(function (props, ref
    */
   var getGroupDepth = function getGroupDepth(group, arr) {
     var groupData = group.slice();
-    var set = new Set(
-      groupData.map(function (group) {
-        return group.depth;
-      })
-    );
+    var set = new Set(groupData.map(function (group) {
+      return group.depth;
+    }));
     return Array.from(set).sort(function compare(a, b) {
       if (a > b) {
         return arr === 'asc' ? -1 : 1;
@@ -478,10 +363,7 @@ var DxPlanitTreeGrid = /*#__PURE__*/ (0, _react.forwardRef)(function (props, ref
     }
     totalElement.innerHTML = '';
     totalElement.setAttribute('style', 'padding: 0; border: 0');
-    var colgroup =
-      (_thead$previousSiblin = thead.previousSibling) === null || _thead$previousSiblin === void 0
-        ? void 0
-        : _thead$previousSiblin.cloneNode(true);
+    var colgroup = (_thead$previousSiblin = thead.previousSibling) === null || _thead$previousSiblin === void 0 ? void 0 : _thead$previousSiblin.cloneNode(true);
     var groupData = groupField.slice();
     var depth = getGroupDepth(groupData, 'asc');
     var table = document.createElement('table');
@@ -512,7 +394,7 @@ var DxPlanitTreeGrid = /*#__PURE__*/ (0, _react.forwardRef)(function (props, ref
         return {
           colspan: group.colspan,
           text: group.groupCaption,
-          type: 'GT',
+          type: 'GT'
         };
       });
     });
@@ -526,7 +408,7 @@ var DxPlanitTreeGrid = /*#__PURE__*/ (0, _react.forwardRef)(function (props, ref
   var makeSplitCondtion = function makeSplitCondtion(condition) {
     var newCondition = {
       standard: '',
-      condition: '',
+      condition: ''
     };
     _toConsumableArray(condition).forEach(function (cond) {
       if (Number.isNaN(parseFloat(cond))) {
@@ -552,14 +434,7 @@ var DxPlanitTreeGrid = /*#__PURE__*/ (0, _react.forwardRef)(function (props, ref
       if (e.cell.value === null) {
         return;
       }
-      if (
-        ((_e$cell8 = e.cell) === null || _e$cell8 === void 0
-          ? void 0
-          : (_e$cell8$format = _e$cell8.format) === null || _e$cell8$format === void 0
-          ? void 0
-          : _e$cell8$format.type) === color.format &&
-        !Number.isNaN(e.cell.value)
-      ) {
+      if (((_e$cell8 = e.cell) === null || _e$cell8 === void 0 ? void 0 : (_e$cell8$format = _e$cell8.format) === null || _e$cell8$format === void 0 ? void 0 : _e$cell8$format.type) === color.format && !Number.isNaN(e.cell.value)) {
         var standardData = makeSplitCondtion(color.condition.replace(/(\s*)/g, ''));
         var rate = color.format === 'percent' ? 0.01 : 1;
         var condition = false;
@@ -590,9 +465,7 @@ var DxPlanitTreeGrid = /*#__PURE__*/ (0, _react.forwardRef)(function (props, ref
    */
   var checkDataSource = function checkDataSource(dataSource) {
     if (!dataSource._fields) {
-      throw Error(
-        'PivotGridDataSource 의 field 정보가 없습니다. 올바른 field 정보를 입력하세요. https://js.devexpress.com/Documentation/ApiReference/Data_Layer/PivotGridDataSource/Configuration/fields/'
-      );
+      throw Error('PivotGridDataSource 의 field 정보가 없습니다. 올바른 field 정보를 입력하세요. https://js.devexpress.com/Documentation/ApiReference/Data_Layer/PivotGridDataSource/Configuration/fields/');
     }
     var isColumns = dataSource._fields.findIndex(function (field) {
       return field.area === 'column';
@@ -618,10 +491,7 @@ var DxPlanitTreeGrid = /*#__PURE__*/ (0, _react.forwardRef)(function (props, ref
   var exportToExcel = function exportToExcel(fileName) {
     setTimeout(function () {
       var _$tableRef$current;
-      return exportToExcelAction(
-        (_$tableRef$current = $tableRef.current) === null || _$tableRef$current === void 0 ? void 0 : _$tableRef$current.instance,
-        fileName
-      );
+      return exportToExcelAction((_$tableRef$current = $tableRef.current) === null || _$tableRef$current === void 0 ? void 0 : _$tableRef$current.instance, fileName);
     });
   };
 
@@ -662,17 +532,14 @@ var DxPlanitTreeGrid = /*#__PURE__*/ (0, _react.forwardRef)(function (props, ref
           bottom: borderStyle,
           left: borderStyle,
           right: borderStyle,
-          top: borderStyle,
+          top: borderStyle
         };
-      },
+      }
     }).then(function () {
       workbook.xlsx.writeBuffer().then(function (buffer) {
-        (0, _fileSaver.default)(
-          new Blob([buffer], {
-            type: 'application/octet-stream',
-          }),
-          fileName + '.xlsx'
-        );
+        (0, _fileSaver.default)(new Blob([buffer], {
+          type: 'application/octet-stream'
+        }), fileName + '.xlsx');
       });
     });
     e.cancel = true;
@@ -766,71 +633,57 @@ var DxPlanitTreeGrid = /*#__PURE__*/ (0, _react.forwardRef)(function (props, ref
   };
   (0, _react.useImperativeHandle)(ref, function () {
     return {
-      exportToExcel: exportToExcel,
+      exportToExcel: exportToExcel
     };
   });
-  (0, _react.useEffect)(
-    function () {
-      if (Object.keys(dataSource).length) {
-        resetSession();
-        setGridDataSource(dataSource);
-        checkDataSource(dataSource);
-      }
-    },
-    [dataSource]
-  );
-  return /*#__PURE__*/ _react.createElement(
-    _react.Fragment,
-    null,
-    Object.keys(gridDataSource).length &&
-      /*#__PURE__*/ _react.createElement(
-        'div',
-        null,
-        /*#__PURE__*/ _react.createElement(
-          _pivotGrid.default,
-          {
-            id: id,
-            ref: $tableRef,
-            dataSource: gridDataSource,
-            showColumnTotals: false,
-            showColumnGrandTotals: true,
-            showRowGrandTotals: false,
-            width: width,
-            height: height,
-            allowExpandAll: allowExpandAll,
-            allowFiltering: allowFiltering,
-            allowSorting: allowSorting,
-            allowSortingBySummary: allowSortingBySummary,
-            dataFieldArea: dataFieldArea,
-            disabled: disabled,
-            elementAttr: elementAttr,
-            encodeHtml: encodeHtml,
-            hideEmptySummaryCells: hideEmptySummaryCells,
-            hint: hint,
-            rowHeaderLayout: rowHeaderLayout,
-            rtlEnabled: rtlEnabled,
-            showBorders: showBorders,
-            showRowTotals: showRowTotals,
-            showTotalsPrior: showTotalsPrior,
-            tabIndex: tabIndex,
-            visible: visible,
-            wordWrapEnabled: wordWrapEnabled,
-            onCellClick: onCellClickChild,
-            onContentReady: onContentReadyChild,
-            onCellPrepared: onCellPreparedChild,
-            onContextMenuPreparing: onContextMenuPreparingChild,
-            onDisposing: onDisposingChild,
-            onExporting: onExportingChild,
-            onInitialized: onInitializedChild,
-            onOptionChanged: onOptionChangedChild,
-          },
-          convertChildren(children),
-          /*#__PURE__*/ _react.createElement(_pivotGrid.FieldChooser, {
-            enabled: false,
-          })
-        )
-      )
-  );
+  (0, _react.useEffect)(function () {
+    if (Object.keys(dataSource).length) {
+      resetSession();
+      setGridDataSource(dataSource);
+      checkDataSource(dataSource);
+    }
+  }, [dataSource]);
+  (0, _react.useEffect)(function () {
+    transferLanguage(language);
+  }, [language]);
+  return /*#__PURE__*/_react.createElement(_react.Fragment, null, Object.keys(gridDataSource).length && /*#__PURE__*/_react.createElement("div", null, /*#__PURE__*/_react.createElement(_pivotGrid.default, {
+    id: id,
+    ref: $tableRef,
+    dataSource: gridDataSource,
+    showColumnTotals: false,
+    showColumnGrandTotals: true,
+    showRowGrandTotals: false,
+    width: width,
+    height: height,
+    allowExpandAll: allowExpandAll,
+    allowFiltering: allowFiltering,
+    allowSorting: allowSorting,
+    allowSortingBySummary: allowSortingBySummary,
+    dataFieldArea: dataFieldArea,
+    disabled: disabled,
+    elementAttr: elementAttr,
+    encodeHtml: encodeHtml,
+    hideEmptySummaryCells: hideEmptySummaryCells,
+    hint: hint,
+    rowHeaderLayout: rowHeaderLayout,
+    rtlEnabled: rtlEnabled,
+    showBorders: showBorders,
+    showRowTotals: showRowTotals,
+    showTotalsPrior: showTotalsPrior,
+    tabIndex: tabIndex,
+    visible: visible,
+    wordWrapEnabled: wordWrapEnabled,
+    onCellClick: onCellClickChild,
+    onContentReady: onContentReadyChild,
+    onCellPrepared: onCellPreparedChild,
+    onContextMenuPreparing: onContextMenuPreparingChild,
+    onDisposing: onDisposingChild,
+    onExporting: onExportingChild,
+    onInitialized: onInitializedChild,
+    onOptionChanged: onOptionChangedChild
+  }, convertChildren(children), /*#__PURE__*/_react.createElement(_pivotGrid.FieldChooser, {
+    enabled: false
+  }))));
 });
 var _default = DxPlanitTreeGrid;
 exports.default = _default;
