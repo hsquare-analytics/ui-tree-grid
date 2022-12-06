@@ -95,7 +95,14 @@ value가 0 | '0' | '0%' 인 데이터를 하이픈('-')으로 보여줍니다.
 > type: boolean<br />
 > default value: true
 
-### 4. groupField
+### 4. language
+
+> type: 'ko' | 'en' <br />
+> default value: 'en'
+
+한국어 설정을 할 수 있습니다.
+
+### 5. groupField
 
 groupField는 그리드 상단에 colspan 된 새로운 column을 생성합니다. 자세한 사용법은 github의 demo 폴더를 확인하십시오.
 
@@ -107,13 +114,6 @@ groupField는 그리드 상단에 colspan 된 새로운 column을 생성합니�
 > colspan: number;
 > }[]<br />
 > default value: null
-
-### 5. language
-
-> type: 'ko' | 'en' <br />
-> default value: 'en'
-
-한국어 설정을 할 수 있습니다.
 
 ```
 import { TypeDxPlanit } from 'devextreme-planit-treegrid-react';
