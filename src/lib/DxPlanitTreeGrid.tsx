@@ -65,25 +65,31 @@ const DxPlanitTreeGrid = forwardRef(
     const [height, setHeight] = useState(0);
     const [columnIndex, setColumnIndex] = useState(0);
     const [gridDataSource, setGridDataSource] = useState<PivotGridDataSource>(dataSource);
+    const [oldDataSource, setOldDataSource] = useState<any>(null);
 
     const $tableRef = useRef<PivotGrid>(null);
     const excelBorder = { style: 'thin', color: { argb: 'FF7E7E7E' } };
+    const korean = {
+      'ko': {
+        'dxPivotGrid-sortColumnBySummary': '"{0}" 을(를) 선택한 열 기준으로 정렬',
+        'dxPivotGrid-removeAllSorting': '정렬기능 모두 제거',
+        'dxPivotGrid-expandAll': '모두 펼치기',
+        'dxPivotGrid-collapseAll': '모두 접기',
+        'dxDataGrid-headerFilterOK': '확인',
+        'dxDataGrid-headerFilterCancel': '취소',
+        'dxList-selectAll': '모두 선택',
+        'Search': '검색',
+      },
+    };
 
+    /**
+     * devextreme 한국어 변환
+     * @param lang 설정한 language 정보
+     */
     const transferLanguage = (lang: string) => {
       locale(lang);
       if (lang === 'ko' || lang === 'ko-KR') {
-        loadMessages({
-          ko: {
-            'dxPivotGrid-sortColumnBySummary': '"{0}" 을(를) 선택한 열 기준으로 정렬',
-            'dxPivotGrid-removeAllSorting': '정렬기능 모두 제거',
-            'dxPivotGrid-expandAll': '모두 펼치기',
-            'dxPivotGrid-collapseAll': '모두 접기',
-            'dxDataGrid-headerFilterOK': '확인',
-            'dxDataGrid-headerFilterCancel': '취소',
-            'dxList-selectAll': '모두 선택',
-            'Search': '검색',
-          },
-        });
+        loadMessages(korean);
       }
     };
 
@@ -526,6 +532,8 @@ const DxPlanitTreeGrid = forwardRef(
       return null;
     };
 
+    const compareDataSource = (): void => {};
+
     /**
      * 그리드 펼침 정보 세션스토리지 리셋
      */
@@ -608,7 +616,10 @@ const DxPlanitTreeGrid = forwardRef(
 
     useEffect(() => {
       if (Object.keys(dataSource).length) {
-        resetSession();
+        if (oldDataSource && oldDataSource._fields.length !== dataSource._fields.length) {
+          resetSession();
+          setOldDataSource(dataSource);
+        }
         setGridDataSource(dataSource);
         checkDataSource(dataSource);
       }
