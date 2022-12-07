@@ -109,7 +109,7 @@ const DxPlanitTreeGrid = forwardRef(
      * @returns
      */
     const modifyChildren = (child: any, index: number): JSX.Element => {
-      if (child.type.OptionName.toLowerCase() === 'fieldpanel') {
+      if (child?.type.OptionName.toLowerCase() === 'fieldpanel') {
         warnDisableProps(child);
         return (
           <FieldPanel
@@ -532,8 +532,6 @@ const DxPlanitTreeGrid = forwardRef(
       return null;
     };
 
-    const compareDataSource = (): void => {};
-
     /**
      * 그리드 펼침 정보 세션스토리지 리셋
      */
@@ -568,7 +566,6 @@ const DxPlanitTreeGrid = forwardRef(
       e: DevExpress.ui.dxPivotGrid.ContentReadyEvent
     ): ((e: DevExpress.ui.dxPivotGrid.ContentReadyEvent) => void) | void => {
       insertRowHeaderGroup();
-      // setTimeout(() => insertRowHeaderGroup(), 0);
       getGridSize();
 
       return onContentReady ? onContentReady(e) : undefined;

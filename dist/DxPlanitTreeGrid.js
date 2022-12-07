@@ -264,7 +264,7 @@ var DxPlanitTreeGrid = /*#__PURE__*/ (0, _react.forwardRef)(function (props, ref
    * @returns
    */
   var modifyChildren = function modifyChildren(child, index) {
-    if (child.type.OptionName.toLowerCase() === 'fieldpanel') {
+    if ((child === null || child === void 0 ? void 0 : child.type.OptionName.toLowerCase()) === 'fieldpanel') {
       var _child$props$visible, _child$props$allowFie, _child$props$showRowF;
       warnDisableProps(child);
       return /*#__PURE__*/ _react.createElement(_pivotGrid.FieldPanel, {
@@ -742,7 +742,6 @@ var DxPlanitTreeGrid = /*#__PURE__*/ (0, _react.forwardRef)(function (props, ref
     }
     return null;
   };
-  var compareDataSource = function compareDataSource() {};
 
   /**
    * 그리드 펼침 정보 세션스토리지 리셋
@@ -773,7 +772,6 @@ var DxPlanitTreeGrid = /*#__PURE__*/ (0, _react.forwardRef)(function (props, ref
    */
   var onContentReadyChild = function onContentReadyChild(e) {
     insertRowHeaderGroup();
-    // setTimeout(() => insertRowHeaderGroup(), 0);
     getGridSize();
     return onContentReady ? onContentReady(e) : undefined;
   };
