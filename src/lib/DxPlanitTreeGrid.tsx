@@ -1,7 +1,7 @@
-import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
+import React, { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
 
 import PivotGrid, { FieldChooser, FieldPanel } from 'devextreme-react/pivot-grid';
-import DevExpress from 'devextreme';
+// import DevExpress from 'devextreme';
 import { exportPivotGrid } from 'devextreme/excel_exporter';
 import { Workbook } from 'exceljs';
 import saveAs from 'file-saver';
@@ -39,7 +39,6 @@ const DxPlanitTreeGrid = forwardRef(
       dataSource,
       disabled = false,
       elementAttr,
-      encodeHtml,
       hideEmptySummaryCells = false,
       hint,
       rowHeaderLayout = 'standard',
@@ -147,7 +146,7 @@ const DxPlanitTreeGrid = forwardRef(
      * 'Total' 을 한글로 변경
      * @param e devextreme CellPreparedEvent
      */
-    const changeTotalText = (e: DevExpress.ui.dxPivotGrid.CellPreparedEvent): void => {
+    const changeTotalText = (e: any): void => {
       if (!e.cellElement || !(language === 'ko' || language === 'ko-KR')) {
         return;
       }
@@ -161,7 +160,7 @@ const DxPlanitTreeGrid = forwardRef(
      * null값을 하이픈으로 모두 변경
      * @param e devextreme CellPreparedEvent
      */
-    const changeNullToHipen = (e: DevExpress.ui.dxPivotGrid.CellPreparedEvent): void => {
+    const changeNullToHipen = (e: any): void => {
       if (!convertNullToHipen) {
         return;
       }
@@ -174,7 +173,7 @@ const DxPlanitTreeGrid = forwardRef(
      * '0', '0.0%' 를 하이픈으로 모두 변경
      * @param e devextreme CellPreparedEvent
      */
-    const changeZeroToHipen = (e: DevExpress.ui.dxPivotGrid.CellPreparedEvent): void => {
+    const changeZeroToHipen = (e: any): void => {
       if (!convertZeroToHipen) {
         return;
       }
@@ -247,7 +246,7 @@ const DxPlanitTreeGrid = forwardRef(
      * Grand Total 셀 정보 저장
      * @param e
      */
-    const setTotalElementInfo = (e: DevExpress.ui.dxPivotGrid.CellPreparedEvent): void => {
+    const setTotalElementInfo = (e: any): void => {
       if (!groupField?.length || e.cell?.type !== 'GT' || e.cell?.text !== 'Grand Total') {
         return;
       }
@@ -259,7 +258,7 @@ const DxPlanitTreeGrid = forwardRef(
      * cell의 columnIndex 최대값 저장
      * @param e
      */
-    const setMaxColumIndex = (e: DevExpress.ui.dxPivotGrid.CellPreparedEvent): void => {
+    const setMaxColumIndex = (e: any): void => {
       if (!e.columnIndex) {
         return;
       }
@@ -546,9 +545,7 @@ const DxPlanitTreeGrid = forwardRef(
      * devextreme CellPreparedEvent 이벤트 실행
      * @param e
      */
-    const onCellPreparedChild = (
-      e: DevExpress.ui.dxPivotGrid.CellPreparedEvent
-    ): ((e: DevExpress.ui.dxPivotGrid.CellPreparedEvent) => void) | void => {
+    const onCellPreparedChild = (e: any): ((e: any) => void) | void => {
       makeColorAtPercent(e);
       setTotalElementInfo(e);
       setMaxColumIndex(e);
@@ -562,48 +559,34 @@ const DxPlanitTreeGrid = forwardRef(
     /**
      * devextreme Raise Event
      */
-    const onContentReadyChild = (
-      e: DevExpress.ui.dxPivotGrid.ContentReadyEvent
-    ): ((e: DevExpress.ui.dxPivotGrid.ContentReadyEvent) => void) | void => {
+    const onContentReadyChild = (e: any): ((e: any) => void) | void => {
       insertRowHeaderGroup();
       getGridSize();
 
       return onContentReady ? onContentReady(e) : undefined;
     };
 
-    const onCellClickChild = (
-      e: DevExpress.ui.dxPivotGrid.CellClickEvent
-    ): ((e: DevExpress.ui.dxPivotGrid.CellClickEvent) => void) | void => {
+    const onCellClickChild = (e: any): ((e: any) => void) | void => {
       return onCellClick ? onCellClick(e) : undefined;
     };
 
-    const onContextMenuPreparingChild = (
-      e: DevExpress.ui.dxPivotGrid.ContextMenuPreparingEvent
-    ): ((e: DevExpress.ui.dxPivotGrid.ContextMenuPreparingEvent) => void) | void => {
+    const onContextMenuPreparingChild = (e: any): ((e: any) => void) | void => {
       return onContextMenuPreparing ? onContextMenuPreparing(e) : undefined;
     };
 
-    const onDisposingChild = (
-      e: DevExpress.ui.dxPivotGrid.DisposingEvent
-    ): ((e: DevExpress.ui.dxPivotGrid.DisposingEvent) => void) | void => {
+    const onDisposingChild = (e: any): ((e: any) => void) | void => {
       return onDisposing ? onDisposing(e) : undefined;
     };
 
-    const onExportingChild = (
-      e: DevExpress.ui.dxPivotGrid.ExportingEvent
-    ): ((e: DevExpress.ui.dxPivotGrid.ExportingEvent) => void) | void => {
+    const onExportingChild = (e: any): ((e: any) => void) | void => {
       return onExporting ? onExporting(e) : undefined;
     };
 
-    const onInitializedChild = (
-      e: DevExpress.ui.dxPivotGrid.InitializedEvent
-    ): ((e: DevExpress.ui.dxPivotGrid.InitializedEvent) => void) | void => {
+    const onInitializedChild = (e: any): ((e: any) => void) | void => {
       return onInitialized ? onInitialized(e) : undefined;
     };
 
-    const onOptionChangedChild = (
-      e: DevExpress.ui.dxPivotGrid.OptionChangedEvent
-    ): ((e: DevExpress.ui.dxPivotGrid.OptionChangedEvent) => void) | void => {
+    const onOptionChangedChild = (e: any): ((e: any) => void) | void => {
       return onOptionChanged ? onOptionChanged(e) : undefined;
     };
 
@@ -630,6 +613,7 @@ const DxPlanitTreeGrid = forwardRef(
       <>
         {Object.keys(gridDataSource).length && (
           <div>
+            {/* @ts-ignore */}
             <PivotGrid
               id={id}
               ref={$tableRef}
@@ -646,7 +630,6 @@ const DxPlanitTreeGrid = forwardRef(
               dataFieldArea={dataFieldArea}
               disabled={disabled}
               elementAttr={elementAttr}
-              encodeHtml={encodeHtml}
               hideEmptySummaryCells={hideEmptySummaryCells}
               hint={hint}
               rowHeaderLayout={rowHeaderLayout}

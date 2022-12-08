@@ -1,6 +1,6 @@
 import React from 'react';
 import DevExpress from 'devextreme';
-import { HeaderFilter } from 'devextreme-react/pivot-grid';
+// import { HeaderFilter } from 'devextreme-react/pivot-grid';
 import { Format } from 'devextreme/localization';
 
 export declare const DxPlanitTreeGrid;
@@ -27,7 +27,7 @@ export declare module TypeDxPlanit {
     condition: string;
   }
 
-  export interface Props extends DevExpress.ui.dxPivotGrid.Properties {
+  export interface Props extends DevExpress.ui.dxPivotGridOptions {
     id?: string;
     dataSource?: any;
     groupField?: IGroupField[];
@@ -35,7 +35,7 @@ export declare module TypeDxPlanit {
     convertNullToHipen?: boolean;
     convertZeroToHipen?: boolean;
     customExcelButton?: boolean;
-    HeaderFilter?: HeaderFilter;
+    // HeaderFilter?: HeaderFilter;
     children?: React.ReactNode;
     language?: string;
   }
